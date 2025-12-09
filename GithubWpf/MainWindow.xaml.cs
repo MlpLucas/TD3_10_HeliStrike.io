@@ -20,5 +20,6 @@ namespace GithubWpf
         {
             InitializeComponent();
         }
+
     }
 }

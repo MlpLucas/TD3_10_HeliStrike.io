@@ -8,24 +8,26 @@
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
 
-        <Button x:Name="butJouer" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,450,250,470" FontSize="22">
+        <Button x:Name="butJouer" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,0,250,0" FontSize="22">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgJouer.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butSkin" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,580,250,340" FontSize="22">
+        <Button x:Name="butSkin" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,250,250,0" FontSize="22">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgProfil.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butBoutique" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,720,250,200" BorderBrush="#00707070">
+        <Button x:Name="butBoutique" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,500,250,0" BorderBrush="#00707070">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgBoutique.png"/>
             </Button.Background>
         </Button>
 
-        <Button Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,720,250,200" BorderBrush="#00707070">
-
+        <Button x:Name="butReglage" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="277.5,750,278,0" BorderBrush="#00707070">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgReglage.png"/>
+            </Button.Background>
         </Button>
         
         <Image x:Name="imgLogo" Margin="62,22,62,610" Source="/Images/Logo1.png" Stretch="Fill"/>
