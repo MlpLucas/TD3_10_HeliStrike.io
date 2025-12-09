@@ -8,10 +8,28 @@
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
 
-        <Button x:Name="butJouer" Content="Jouer" Width="180" Height="60" Background="#C0C0C0" Foreground="White" FontWeight="Bold" BorderBrush="#696969" BorderThickness="2" Margin="0,-160,0,0" FontSize="16"/>
-        <Button x:Name="butSkin" Content="Skin" Width="180" Height="60" Background="#C0C0C0" Foreground="White" FontWeight="Bold" BorderBrush="#696969" BorderThickness="2" Margin="0,160,0,0" FontSize="16"/>
-        <Button x:Name="butBoutique" Content="Boutique" Width="180" Height="60" Background="#C0C0C0" Foreground="White" FontWeight="Bold" BorderBrush="#696969" BorderThickness="2" FontSize="16"/>
+        <Button x:Name="butJouer" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,450,250,470" FontSize="22">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgJouer.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="butSkin" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,580,250,340" FontSize="22">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgProfil.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="butBoutique" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,720,250,200" BorderBrush="#00707070">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgBoutique.png"/>
+            </Button.Background>
+        </Button>
+
+        <Button Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,720,250,200" BorderBrush="#00707070">
+
+        </Button>
         
+        <Image x:Name="imgLogo" Margin="62,22,62,610" Source="/Images/Logo1.png" Stretch="Fill"/>
+
 
 
     </Grid>
