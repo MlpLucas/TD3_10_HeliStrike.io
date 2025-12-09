@@ -23,6 +23,7 @@ namespace GithubWpf
         {
             InitializeComponent();
             InitializeTimer();
+            AfficheDemarrage();
         }
 
         private void InitializeTimer()
@@ -48,6 +49,11 @@ namespace GithubWpf
             Canvas.SetTop(image, Canvas.GetTop(image) + pas);
             if (Canvas.GetTop(image) >= image.Height)
                 Canvas.SetTop(image, -image.ActualHeight + pas);
+        }
+        private void AfficheDemarrage()
+        {
+            UCDemarrage uc = new UCDemarrage();
+            ZoneJeu.Content = uc;
         }
 
     }
