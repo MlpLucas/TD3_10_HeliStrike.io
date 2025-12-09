@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="800">
     <Grid>
+        <Image Margin="0,334,0,0" Source="/Images/background1.png" Stretch="Fill"/>
+        <Image Margin="0,-316,0,650" Source="/Images/background1.png" Stretch="Fill"/>
 
     </Grid>
 </Window>
