@@ -24,7 +24,7 @@
             </Button.Background>
         </Button>
 
-        <Button x:Name="butReglage" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,750,250,0" BorderBrush="#00707070">
+        <Button x:Name="butReglages" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,750,250,0" BorderBrush="#00707070">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgReglage.png"/>
             </Button.Background>
@@ -32,7 +32,7 @@
         
         <Image x:Name="imgLogo" Margin="62,22,62,610" Source="/Images/Logo1.png" Stretch="Fill"/>
         
-        <Button x:Name="butReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="80" Height="80" Margin="40,0,0,40">
+        <Button x:Name="butReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="40,0,0,40" Width="80" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgRegle.png"/>
             </Button.Background>
