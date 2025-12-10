@@ -85,9 +85,48 @@ namespace GithubWpf
                 Canvas.SetLeft(imgHelico, newLeft);
             }
 
-#if DEBUG
+            #if DEBUG
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
 #endif
+
+
+
+
+            foreach (var x in canvasJeu.Children.OfType<Rectangle>())
+            {
+                // if any rectangle has the tag bullet in it
+                if (x is Rectangle && (string)x.Tag == "bullet")
+                {
+                    // move the bullet rectangle towards top of the screen
+                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+                    // make a rect class with the bullet rectangles properties
+                    Rect bullet = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    // check if bullet has reached top part of the screen
+                    if (Canvas.GetTop(x) < 10)
+                    {
+                        // if it has then add it to the item to remove list
+                        //itemstoremove.Add(x);
+                    }
+                    // run another for each loop inside of the main loop this one has a local variable called y
+                    foreach (var y in canvasJeu.Children.OfType<Rectangle>())
+                    {
+                        // if y is a rectangle and it has a tag called enemy
+                        if (y is Rectangle && (string)y.Tag == "enemy")
+                        {
+                            // make a local rect called enemy and put the enemies properties into it
+                            Rect enemy = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                            // now check if bullet and enemy is colliding or not
+                            // if the bullet is colliding with the enemy rectangle
+                            if (bullet.IntersectsWith(enemy))
+                            {
+                                //itemstoremove.Add(x); // remove bullet
+                                //itemstoremove.Add(y); // remove enemy
+                                score++; // add one to the score
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         // Abonné keyDown et keyUp de la mainWindow via Loaded
@@ -129,6 +168,20 @@ namespace GithubWpf
             {
                 Agauche = true;
             }
+        }
+
+        private void canvasJeu_KeyUp(object sender, KeyEventArgs e)
+        {
+            // remettre à false le booléen correspondant
+            if (e.Key == Key.Right)
+            {
+                Adroite = false;
+            }
+            else if (e.Key == Key.Left)
+            {
+                Agauche = false;
+            }
+
 
             //Création de balles/tires lors de l'appui sur la barre espace
             if (e.Key == Key.Space)
@@ -147,19 +200,6 @@ namespace GithubWpf
                 Canvas.SetLeft(newBullet, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
                 // add the bullet to the screen
                 canvasJeu.Children.Add(newBullet);
-            }
-        }
-
-        private void canvasJeu_KeyUp(object sender, KeyEventArgs e)
-        {
-            // remettre à false le booléen correspondant
-            if (e.Key == Key.Right)
-            {
-                Adroite = false;
-            }
-            else if (e.Key == Key.Left)
-            {
-                Agauche = false;
             }
         }
     }
