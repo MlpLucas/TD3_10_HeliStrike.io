@@ -10,6 +10,15 @@
         <ImageBrush/>
     </UserControl.Background>
     <Grid>
+        <RadioButton x:Name="rbHelico1" Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="215,0,0,0" >
+            <RadioButton.Content>
+                <Image Source="/Images/Helicoptere/helico1-1.png" Width="150" Height="150"/>
+            </RadioButton.Content>
+        </RadioButton>
+
+
+
+
         <Button x:Name="butRetourChoixPerso" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>

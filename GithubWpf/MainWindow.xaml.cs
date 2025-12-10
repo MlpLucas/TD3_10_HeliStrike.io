@@ -37,6 +37,12 @@ namespace GithubWpf
             minuterie.Start();
         }
 
+        //Choix du personnage
+        public static string Perso { get; set; }
+        public static int PasHelico { get; set; } = 6;
+
+
+        //Animation background
         private static int pasFond = 4;
         private void Jeu(object? sender, EventArgs e)
         {
@@ -50,6 +56,8 @@ namespace GithubWpf
             if (Canvas.GetTop(image) >= image.Height)
                 Canvas.SetTop(image, -image.ActualHeight + pas);
         }
+
+        //Boutton Navigation entre les UserControl
         private void AfficheDemarrage()
         {
             UCDemarrage uc = new UCDemarrage();
