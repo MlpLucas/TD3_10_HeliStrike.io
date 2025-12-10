@@ -10,6 +10,11 @@
         <ImageBrush/>
     </UserControl.Background>
     <Grid>
-            
+        <Button x:Name="butRetourChoixPerso" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
+            </Button.Background>
+        </Button>
+
     </Grid>
 </UserControl>

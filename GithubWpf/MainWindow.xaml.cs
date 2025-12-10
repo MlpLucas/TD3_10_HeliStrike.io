@@ -54,6 +54,52 @@ namespace GithubWpf
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
+            uc.butProfil.Click += AfficheChoixPerso;
+            uc.butJouer.Click += AfficheJeu;
+            uc.butBoutique.Click += AfficheBoutique;
+            uc.butReglage.Click += AfficheReglages;
+            uc.butReglesJeu.Click += AfficheReglesJeu;
+        }
+
+        private void AfficheDemarrage(object sender, RoutedEventArgs e)
+        {
+            UCDemarrage uc = new UCDemarrage();
+            ZoneJeu.Content = uc;
+            uc.butProfil.Click += AfficheChoixPerso;
+            uc.butJouer.Click += AfficheJeu;
+            uc.butBoutique.Click += AfficheBoutique;
+            uc.butReglage.Click += AfficheReglages;
+            uc.butReglesJeu.Click += AfficheReglesJeu;
+        }
+
+        private void AfficheChoixPerso(object sender, RoutedEventArgs e)
+        {
+            UCChoixPerso uc = new UCChoixPerso();
+            ZoneJeu.Content = uc;
+            uc.butRetourChoixPerso.Click += AfficheDemarrage;
+        }
+        private void AfficheBoutique(object sender, RoutedEventArgs e)
+        {
+            UCBoutique uc = new UCBoutique();
+            ZoneJeu.Content = uc;
+            uc.butRetourBoutique.Click += AfficheDemarrage;
+        }
+        private void AfficheJeu(object sender, RoutedEventArgs e)
+        {
+            UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
+        }
+        private void AfficheReglages(object sender, RoutedEventArgs e)
+        {
+            UCReglages uc = new UCReglages();
+            ZoneJeu.Content = uc;
+            uc.butRetourReglages.Click += AfficheDemarrage;
+        }
+        private void AfficheReglesJeu(object sender, RoutedEventArgs e)
+        {
+            UCReglesJeu uc = new UCReglesJeu();
+            ZoneJeu.Content = uc;
+            uc.butRetourReglesJeu.Click += AfficheDemarrage;
         }
 
     }

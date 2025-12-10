@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:GithubWpf"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
-    <Grid>
-        <Label x:Name="labelRegles" Content="Dans HeliStrike.io,
-               &#10;le joueur contrôle un hélicoptère de gauche à droite.
-               &#10;Le but est de faire le meilleur score&#10; tout en évitant ou en tirant sur les obstacles.
-               &#10;En mode facile, le joueur procède 3 points de vie, ainsi que la possibilité d’obtenir des bonus.
-               &#10;En mode difficile, le joueur n’a qu’une vie et aucun bonus.
-" VerticalAlignment="Center" HorizontalAlignment="Center" Height="600" Width="600" FontSize="20" FontFamily="Arial Rounded MT Bold"/>
+    <Grid x:Name="bu">
+
+        <Button x:Name="butRetourReglesJeu" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </UserControl>

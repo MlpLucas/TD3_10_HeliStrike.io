@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace GithubWpf
 {
     /// <summary>
-    /// Logique d'interaction pour UCDifficulte.xaml
+    /// Logique d'interaction pour UCReglages.xaml
     /// </summary>
-    public partial class UCDifficulte : UserControl
+    public partial class UCReglages : UserControl
     {
-        public UCDifficulte()
+        public UCReglages()
         {
             InitializeComponent();
         }
