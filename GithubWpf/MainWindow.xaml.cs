@@ -18,14 +18,12 @@ namespace GithubWpf
     public partial class MainWindow : Window
     {
         private static DispatcherTimer minuterie;
-        private BitmapImage[] helico = new BitmapImage[6];
-
+   
         public MainWindow()
         {
             InitializeComponent();
             InitializeTimer();
             AfficheDemarrage();
-            //InitializeImages();
         }
 
         private void InitializeTimer()
@@ -113,11 +111,7 @@ namespace GithubWpf
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;
         }
-        /*private void InitializeImages()
-        {
-            for (int i = 0; i < helico.Length; i++)
-                helico[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/img-helico/helico{i + 1}.png"));
-        }
-        */
+
+
     }
 }
