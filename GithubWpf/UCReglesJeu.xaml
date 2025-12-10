@@ -7,12 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
-        <Label x:Name="labelRegles" Content="Dans HeliStrike.io,
-               &#10;le joueur contrôle un hélicoptère de gauche à droite.
-               &#10;Le but est de faire le meilleur score&#10; tout en évitant ou en tirant sur les obstacles.
-               &#10;En mode facile, le joueur procède 3 points de vie, ainsi que la possibilité d’obtenir des bonus.
-               &#10;En mode difficile, le joueur n’a qu’une vie et aucun bonus.
-" VerticalAlignment="Center" HorizontalAlignment="Center" Height="600" Width="600" FontSize="20" FontFamily="Arial Rounded MT Bold"/>
-
+        <Image Source="/Images/imgFondRegle2.png" Stretch="Fill" Width="500" Height="680" />
+        <Label x:Name="labelRegles" VerticalAlignment="Center" HorizontalAlignment="Center" Height="554" Width="380" FontSize="14" FontFamily="/Font/#5x7 mt pixel" Foreground="White">
+            <TextBlock>
+                <LineBreak />
+                Dans HeliStrike.io,<LineBreak />
+                le joueur contrôle un hélicoptère de gauche à<LineBreak />
+                droite.<LineBreak />
+                Le but est de faire le meilleur score<LineBreak />
+                tout en évitant ou en tirant sur les obstacles.<LineBreak />
+                En mode facile, le joueur procède trois<LineBreak />
+                points de vie,<LineBreak />
+                ainsi que la possibilité d’obtenir des bonus.<LineBreak />
+                En mode difficile, le joueur n’a qu’une vie<LineBreak />
+                et aucun bonus.
+            </TextBlock>
+            
+        </Label>
+        
     </Grid>
 </UserControl>
