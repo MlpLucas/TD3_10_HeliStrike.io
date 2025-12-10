@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Canvas x:Name="canvasJeu">
-        <Image x:Name="imgHelico" Height="200" Stretch="Fill" Canvas.Top="800" Width="200"/>
+        <Image x:Name="imgHelico" Height="250" Stretch="Fill" Canvas.Top="742" Width="250" Canvas.Left="254"/>
 
     </Canvas>
 </UserControl>

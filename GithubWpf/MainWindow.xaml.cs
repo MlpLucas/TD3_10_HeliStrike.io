@@ -25,7 +25,7 @@ namespace GithubWpf
             InitializeComponent();
             InitializeTimer();
             AfficheDemarrage();
-            InitializeImages();
+            //InitializeImages();
         }
 
         private void InitializeTimer()
@@ -39,8 +39,8 @@ namespace GithubWpf
             minuterie.Start();
         }
 
-        //Choix du personnage
-        public static string Perso { get; set; }
+        //Choix du personnage + vitesse hélico
+        public static string Perso { get; set; } = "1";
         public static int PasHelico { get; set; } = 6;
 
 
@@ -113,10 +113,11 @@ namespace GithubWpf
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;
         }
-        private void InitializeImages()
+        /*private void InitializeImages()
         {
             for (int i = 0; i < helico.Length; i++)
                 helico[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/img-helico/helico{i + 1}.png"));
         }
+        */
     }
 }
