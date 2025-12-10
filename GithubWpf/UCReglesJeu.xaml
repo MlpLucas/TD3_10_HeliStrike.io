@@ -22,14 +22,15 @@
                 En mode difficile, le joueur n’a qu’une vie<LineBreak />
                 et aucun bonus.
             </TextBlock>
+
         </Label>
 
-        <Grid x:Name="bu">
-            <Button x:Name="butRetourReglesJeu" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
-                </Button.Background>
-            </Button>
-        </Grid>
+        <Button x:Name="butRetourReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="220" Height="80" Margin="20,0,0,20">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
+            </Button.Background>
+        </Button>
+        <Image Margin="20,10,20,0" Source="/Images/LogoRegle.png" Stretch="Fill" Height="140" VerticalAlignment="Top"/>
+
     </Grid>
 </UserControl>

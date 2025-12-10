@@ -18,12 +18,14 @@ namespace GithubWpf
     public partial class MainWindow : Window
     {
         private static DispatcherTimer minuterie;
+        private BitmapImage[] helico = new BitmapImage[6];
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeTimer();
             AfficheDemarrage();
+            InitializeImages();
         }
 
         private void InitializeTimer()
@@ -62,10 +64,11 @@ namespace GithubWpf
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
-            uc.butProfil.Click += AfficheChoixPerso;
+
             uc.butJouer.Click += AfficheJeu;
+            uc.butProfil.Click += AfficheChoixPerso;
             uc.butBoutique.Click += AfficheBoutique;
-            uc.butReglage.Click += AfficheReglages;
+            uc.butReglages.Click += AfficheReglages;
             uc.butReglesJeu.Click += AfficheReglesJeu;
         }
 
@@ -73,29 +76,25 @@ namespace GithubWpf
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
-            uc.butProfil.Click += AfficheChoixPerso;
+
             uc.butJouer.Click += AfficheJeu;
+            uc.butProfil.Click += AfficheChoixPerso;
             uc.butBoutique.Click += AfficheBoutique;
-            uc.butReglage.Click += AfficheReglages;
+            uc.butReglages.Click += AfficheReglages;
             uc.butReglesJeu.Click += AfficheReglesJeu;
         }
 
-        private void AfficheChoixPerso(object sender, RoutedEventArgs e)
-        {
-            UCChoixPerso uc = new UCChoixPerso();
-            ZoneJeu.Content = uc;
-            uc.butRetourChoixPerso.Click += AfficheDemarrage;
-        }
         private void AfficheBoutique(object sender, RoutedEventArgs e)
         {
             UCBoutique uc = new UCBoutique();
             ZoneJeu.Content = uc;
             uc.butRetourBoutique.Click += AfficheDemarrage;
         }
-        private void AfficheJeu(object sender, RoutedEventArgs e)
+        private void AfficheChoixPerso(object sender, RoutedEventArgs e)
         {
-            UCJeu uc = new UCJeu();
+            UCChoixPerso uc = new UCChoixPerso();
             ZoneJeu.Content = uc;
+            uc.butRetourChoixPerso.Click += AfficheDemarrage;
         }
         private void AfficheReglages(object sender, RoutedEventArgs e)
         {
@@ -109,6 +108,15 @@ namespace GithubWpf
             ZoneJeu.Content = uc;
             uc.butRetourReglesJeu.Click += AfficheDemarrage;
         }
-
+        private void AfficheJeu(object sender, RoutedEventArgs e)
+        {
+            UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
+        }
+        private void InitializeImages()
+        {
+            for (int i = 0; i < helico.Length; i++)
+                helico[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/img-helico/helico{i + 1}.png"));
+        }
     }
 }
