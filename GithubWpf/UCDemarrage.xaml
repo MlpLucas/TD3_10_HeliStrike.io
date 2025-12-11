@@ -14,7 +14,7 @@
                 <ImageBrush ImageSource="/Images/Bouton/imgJouer.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butSkin" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,250,250,0" FontSize="22">
+        <Button x:Name="butProfil" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,250,250,0" FontSize="22">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgProfil.png"/>
             </Button.Background>
@@ -25,13 +25,19 @@
             </Button.Background>
         </Button>
 
-        <Button x:Name="butReglage" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,750,250,0" BorderBrush="#00707070">
+        <Button x:Name="butReglages" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,750,250,0" BorderBrush="#00707070">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgReglage.png"/>
             </Button.Background>
         </Button>
-        
+
         <Image x:Name="imgLogo" Margin="62,22,62,610" Source="/Images/Logo1.png" Stretch="Fill"/>
+        
+        <Button x:Name="butReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="40,0,0,40" Width="80" Height="80">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgRegle.png"/>
+            </Button.Background>
+        </Button>
 
 
     </Grid>

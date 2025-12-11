@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
-        <Image Source="/Images/imgFondRegle2.png" Stretch="Fill" Width="500" Height="680" />
+        <Image Source="/Images/imgCadreRegles.png" Stretch="Fill" Width="500" Height="680" />
         <Label x:Name="labelRegles" VerticalAlignment="Center" HorizontalAlignment="Center" Height="554" Width="380" FontSize="14" FontFamily="/Font/#5x7 mt pixel" Foreground="White">
             <TextBlock>
                 <LineBreak />
@@ -22,8 +22,15 @@
                 En mode difficile, le joueur n’a qu’une vie<LineBreak />
                 et aucun bonus.
             </TextBlock>
-            
+
         </Label>
-        
+
+        <Button x:Name="butRetourReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="220" Height="80" Margin="20,0,0,20">
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
+            </Button.Background>
+        </Button>
+        <Image Margin="20,10,20,0" Source="/Images/LogoRegle.png" Stretch="Fill" Height="140" VerticalAlignment="Top"/>
+
     </Grid>
 </UserControl>

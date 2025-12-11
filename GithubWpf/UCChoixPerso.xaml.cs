@@ -24,5 +24,10 @@ namespace GithubWpf
         {
             InitializeComponent();
         }
+
+        private void rbHelico1_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Perso = "1";
+        }
     }
 }
