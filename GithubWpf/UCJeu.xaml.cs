@@ -23,7 +23,6 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
-        //private static BitmapImage Helico1;
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
@@ -46,8 +45,7 @@ namespace GithubWpf
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
-
-            //imgHelico.Source = Helico1;
+ 
 
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -59,12 +57,10 @@ namespace GithubWpf
 
         private void ChargeImageAnimation()
         {
-            //A COMPLETER pour gérer les différents hélicoptères
             try
             {
-                // Charge l'image de l'hélico
-                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico1-1.png"));
-                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-1.png"));
+                // Charge les images de l'hélico
+               
                 for (int i = 0; i < Helico1.Length; i++)
                 {
                     Helico1[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-{i + 1}.png"));
