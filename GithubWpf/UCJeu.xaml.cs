@@ -27,6 +27,9 @@ namespace GithubWpf
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
+        int cadenceTir = 10;
+        int tempsRecharge = 0;
+        
 
         //Test
         int enemieCounter;
@@ -78,6 +81,18 @@ namespace GithubWpf
 
         private void MovementTimer_Tick(object? sender, EventArgs e)
         {
+            if (tempsRecharge > 0)
+            {
+                tempsRecharge--;
+            }
+
+            // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
+            if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
+            {
+                CreerBalle();           // On tire !
+                tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
+            }
+
             //GESTION DU JOUEUR
             // récupération sûre de la position left
             double left = Canvas.GetLeft(imgHelico);
@@ -98,6 +113,7 @@ namespace GithubWpf
                 if (newLeft < 0) newLeft = 0;
                 Canvas.SetLeft(imgHelico, newLeft);
             }
+           
             // GESTION ENNEMIS
 
             enemieCounter--; // Diminution compteur
@@ -111,7 +127,7 @@ namespace GithubWpf
 
             #if DEBUG
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
-#endif
+            #endif
 
 
             foreach (var x in canvasJeu.Children.OfType<Rectangle>()) //enlever .OfType<Rectangle>() une fois les images ajoutées
@@ -234,22 +250,26 @@ namespace GithubWpf
         private void canvasJeu_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Right) Adroite = false;
-            else if (e.Key == Key.Left) Agauche = false;
-
-            if (e.Key == Key.Space)
-            {
-                Rectangle newBullet = new Rectangle
-                {
-                    Tag = "bullet",
-                    Height = 20,
-                    Width = 5,
-                    Fill = Brushes.White,
-                    Stroke = Brushes.Red
-                };
-                Canvas.SetTop(newBullet, Canvas.GetTop(imgHelico) - newBullet.Height);
-                Canvas.SetLeft(newBullet, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
-                canvasJeu.Children.Add(newBullet);
-            }
+            else if (e.Key == Key.Left) Agauche = false;  
         }
+        private void CreerBalle()
+        {
+            Rectangle newBullet = new Rectangle
+            {
+                Tag = "bullet",
+                Height = 20,
+                Width = 5,
+                Fill = Brushes.OrangeRed,
+                Stroke = Brushes.Yellow
+            };
+
+            // Place la balle
+            Canvas.SetTop(newBullet, Canvas.GetTop(imgHelico) - newBullet.Height);
+            Canvas.SetLeft(newBullet, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
+
+            // L'ajoute au jeu
+            canvasJeu.Children.Add(newBullet);
+        }
+
     }
 }
