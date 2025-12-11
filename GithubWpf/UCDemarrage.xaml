@@ -9,7 +9,7 @@
              Background="Transparent">
     <Grid Background="Transparent">
 
-        <Button x:Name="butJouer" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" BorderBrush="#00707070" Margin="250,0,250,0" FontSize="22">
+        <Button x:Name="butJouer" Content="" Width="245" Height="80" FontWeight="Bold" BorderBrush="#00707070" Margin="250,0,250,0" FontSize="22">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgJouer.png"/>
             </Button.Background>

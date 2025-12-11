@@ -27,7 +27,7 @@ namespace GithubWpf
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
-        int cadenceTir = 10;
+        int cadenceTir = 8;
         int tempsRecharge = 0;
         
 
@@ -80,7 +80,8 @@ namespace GithubWpf
         }
 
         private void MovementTimer_Tick(object? sender, EventArgs e)
-        {
+        { 
+            //GESTION TIR
             if (tempsRecharge > 0)
             {
                 tempsRecharge--;
