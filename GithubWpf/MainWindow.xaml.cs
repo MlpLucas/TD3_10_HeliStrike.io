@@ -69,11 +69,12 @@ namespace GithubWpf
             uc.butReglages.Click += AfficheReglages;
             uc.butReglesJeu.Click += AfficheReglesJeu;
         }
+
         private void AfficheDemarrage(object sender, RoutedEventArgs e)
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
-            uc.butProfil.Click += AfficheChoixPerso;
+
             uc.butJouer.Click += AfficheJeu;
             uc.butProfil.Click += AfficheChoixPerso;
             uc.butBoutique.Click += AfficheBoutique;
@@ -81,18 +82,11 @@ namespace GithubWpf
             uc.butReglesJeu.Click += AfficheReglesJeu;
         }
 
-        private void AfficheChoixPerso(object sender, RoutedEventArgs e)
-        {
-            UCChoixPerso uc = new UCChoixPerso();
-            ZoneJeu.Content = uc;
-            uc.butRetourChoixPerso.Click += AfficheDemarrage;
-        }
         private void AfficheBoutique(object sender, RoutedEventArgs e)
         {
             UCBoutique uc = new UCBoutique();
             ZoneJeu.Content = uc;
             uc.butRetourBoutique.Click += AfficheDemarrage;
-
         }
         private void AfficheChoixPerso(object sender, RoutedEventArgs e)
         {
@@ -112,6 +106,12 @@ namespace GithubWpf
             ZoneJeu.Content = uc;
             uc.butRetourReglesJeu.Click += AfficheDemarrage;
         }
+        private void AfficheJeu(object sender, RoutedEventArgs e)
+        {
+            UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
+        }
+
 
     }
 }
