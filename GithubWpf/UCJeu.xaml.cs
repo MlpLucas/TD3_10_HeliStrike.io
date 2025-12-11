@@ -90,7 +90,7 @@ namespace GithubWpf
 #endif
 
 
-
+            //Gestion des balles/tires
 
             foreach (var x in canvasJeu.Children.OfType<Rectangle>())
             {
