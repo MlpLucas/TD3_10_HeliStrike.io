@@ -23,13 +23,15 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
-        private static BitmapImage Helico1;
+        //private static BitmapImage Helico1;
+        private BitmapImage[] Helico1 = new BitmapImage[6];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
         int cadenceTir = 8;
         int tempsRecharge = 0;
-        
+        int nb = 0;
+
 
         //Test
         int enemieCounter;
@@ -45,7 +47,7 @@ namespace GithubWpf
             // démarrage de la logique d'animation/déplacement
             InitTimer();
 
-            imgHelico.Source = Helico1;
+            //imgHelico.Source = Helico1;
 
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -58,11 +60,15 @@ namespace GithubWpf
         private void ChargeImageAnimation()
         {
             //A COMPLETER pour gérer les différents hélicoptères
-            //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-1.png"));
             try
             {
                 // Charge l'image de l'hélico
-                Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico1-1.png"));
+                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico1-1.png"));
+                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-1.png"));
+                for (int i = 0; i < Helico1.Length; i++)
+                {
+                    Helico1[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-{i + 1}.png"));
+                }
             }
             catch
             {
@@ -197,6 +203,16 @@ namespace GithubWpf
             {
                 canvasJeu.Children.Remove(i);
             }
+            AnimationHelico();
+        }
+
+        private void AnimationHelico() //Animation des hélices
+        {
+            nb++;
+            if (nb ==Helico1.Length * 4)
+                nb = 0;
+            if (nb % 4 == 0)
+                imgHelico.Source = Helico1[nb / 4];
         }
 
         // Cette méthode crée un ennemi (carré rouge)

@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Images\img-helico\**" />
+    <EmbeddedResource Remove="Images\img-helico\**" />
+    <None Remove="Images\img-helico\**" />
+    <Page Remove="Images\img-helico\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Font\5x7 MT Pixel.ttf" />
     <None Remove="Images\background1.png" />
     <None Remove="Images\Bouton\imgBoutique.png" />
@@ -19,12 +26,12 @@
     <None Remove="Images\Bouton\imgRegle.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
     <None Remove="Images\Helicoptere\helico1-1.png" />
-    <None Remove="Images\img-helico\helico1.png" />
-    <None Remove="Images\img-helico\helico2.png" />
-    <None Remove="Images\img-helico\helico3.png" />
-    <None Remove="Images\img-helico\helico4.png" />
-    <None Remove="Images\img-helico\helico5.png" />
-    <None Remove="Images\img-helico\helico6.png" />
+    <None Remove="Images\Helicoptere\helico1-2.png" />
+    <None Remove="Images\Helicoptere\helico1-3.png" />
+    <None Remove="Images\Helicoptere\helico1-4.png" />
+    <None Remove="Images\Helicoptere\helico1-5.png" />
+    <None Remove="Images\Helicoptere\helico1-6.png" />
+    <None Remove="Images\Helicoptere\helico1-profile.png" />
     <None Remove="Images\Logo1.png" />
   </ItemGroup>
 
@@ -40,12 +47,12 @@
     <Resource Include="Images\Bouton\imgProfil.png" />
     <Resource Include="Images\Bouton\imgReglage.png" />
     <Resource Include="Images\Helicoptere\helico1-1.png" />
-    <Resource Include="Images\img-helico\helico1.png" />
-    <Resource Include="Images\img-helico\helico2.png" />
-    <Resource Include="Images\img-helico\helico3.png" />
-    <Resource Include="Images\img-helico\helico4.png" />
-    <Resource Include="Images\img-helico\helico5.png" />
-    <Resource Include="Images\img-helico\helico6.png" />
+    <Resource Include="Images\Helicoptere\helico1-2.png" />
+    <Resource Include="Images\Helicoptere\helico1-3.png" />
+    <Resource Include="Images\Helicoptere\helico1-4.png" />
+    <Resource Include="Images\Helicoptere\helico1-5.png" />
+    <Resource Include="Images\Helicoptere\helico1-6.png" />
+    <Resource Include="Images\Helicoptere\helico1-profile.png" />
     <Resource Include="Images\imgCadreRegles.png" />
     <Resource Include="Images\Bouton\imgRegle.png" />
     <Resource Include="Images\Bouton\imgRetour.png" />
