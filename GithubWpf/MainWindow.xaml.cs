@@ -18,7 +18,7 @@ namespace GithubWpf
     public partial class MainWindow : Window
     {
         private static DispatcherTimer minuterie;
-
+   
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +37,12 @@ namespace GithubWpf
             minuterie.Start();
         }
 
+        //Choix du personnage + vitesse hélico
+        public static string Perso { get; set; } = "1";
+        public static int PasHelico { get; set; } = 6;
+
+
+        //Animation background
         private static int pasFond = 4;
         private void Jeu(object? sender, EventArgs e)
         {
@@ -50,10 +56,13 @@ namespace GithubWpf
             if (Canvas.GetTop(image) >= image.Height)
                 Canvas.SetTop(image, -image.ActualHeight + pas);
         }
+
+        //Boutton Navigation entre les UserControl
         private void AfficheDemarrage()
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
+
             uc.butJouer.Click += AfficheJeu;
             uc.butProfil.Click += AfficheChoixPerso;
             uc.butBoutique.Click += AfficheBoutique;
@@ -64,11 +73,19 @@ namespace GithubWpf
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
+            uc.butProfil.Click += AfficheChoixPerso;
             uc.butJouer.Click += AfficheJeu;
             uc.butProfil.Click += AfficheChoixPerso;
             uc.butBoutique.Click += AfficheBoutique;
             uc.butReglages.Click += AfficheReglages;
             uc.butReglesJeu.Click += AfficheReglesJeu;
+        }
+
+        private void AfficheChoixPerso(object sender, RoutedEventArgs e)
+        {
+            UCChoixPerso uc = new UCChoixPerso();
+            ZoneJeu.Content = uc;
+            uc.butRetourChoixPerso.Click += AfficheDemarrage;
         }
         private void AfficheBoutique(object sender, RoutedEventArgs e)
         {
@@ -95,10 +112,6 @@ namespace GithubWpf
             ZoneJeu.Content = uc;
             uc.butRetourReglesJeu.Click += AfficheDemarrage;
         }
-        private void AfficheJeu(object sender, RoutedEventArgs e)
-        {
-            UCJeu uc = new UCJeu();
-            ZoneJeu.Content = uc;
-        }
+
     }
 }

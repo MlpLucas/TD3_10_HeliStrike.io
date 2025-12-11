@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\HeliStrike.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,8 +18,19 @@
     <None Remove="Images\Bouton\imgReglage.png" />
     <None Remove="Images\Bouton\imgRegle.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
+    <None Remove="Images\Helicoptere\helico1-1.png" />
+    <None Remove="Images\img-helico\helico1.png" />
+    <None Remove="Images\img-helico\helico2.png" />
+    <None Remove="Images\img-helico\helico3.png" />
+    <None Remove="Images\img-helico\helico4.png" />
+    <None Remove="Images\img-helico\helico5.png" />
+    <None Remove="Images\img-helico\helico6.png" />
     <None Remove="Images\imgFondRegle2.png" />
     <None Remove="Images\Logo1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\HeliStrike.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +40,12 @@
     <Resource Include="Images\Bouton\imgJouer.png" />
     <Resource Include="Images\Bouton\imgProfil.png" />
     <Resource Include="Images\Bouton\imgReglage.png" />
+<<<<<<<<< Temporary merge branch 1
+    <Resource Include="Images\imgFondRegle2.png" />
+=========
+    <Resource Include="Images\Bouton\imgRegle.png" />
+    <Resource Include="Images\Bouton\imgRetour.png" />
+>>>>>>>>> Temporary merge branch 2
     <Resource Include="Images\Logo1.png" />
   </ItemGroup>
 

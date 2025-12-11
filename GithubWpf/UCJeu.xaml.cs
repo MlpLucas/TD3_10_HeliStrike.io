@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace GithubWpf
 {
@@ -20,9 +23,233 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
+        private static BitmapImage Helico1;
+        private DispatcherTimer movementTimer;
+        private static bool Agauche, Adroite;
+        Random rand = new Random();
+
+        //Test
+        int enemieCounter;
+        int limit = 50;
+        int score = 0;
+        int damage = 0;
+        Rect playerHitBox;
+
         public UCJeu()
         {
             InitializeComponent();
+            ChargeImageAnimation();
+            // démarrage de la logique d'animation/déplacement
+            InitTimer();
+
+            imgHelico.Source = Helico1;
+
+            // garantir que Loaded/Unloaded sont pris en compte
+            this.Loaded += UserControl_Loaded;
+            this.Unloaded += UserControl_Unloaded;
+            // Permet au Canvas de capter les touches du clavier
+            canvasJeu.Focusable = true;
+            canvasJeu.Focus();
+        }
+
+        private void ChargeImageAnimation()
+        {
+            //A COMPLETER pour gérer les différents hélicoptères
+            //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-1.png"));
+            try
+            {
+                // Charge l'image de l'hélico
+                Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico1-1.png"));
+            }
+            catch
+            {
+                MessageBox.Show("Attention : Images manquantes dans le dossier !");
+            }
+
+        }
+
+        private void InitTimer()
+        {
+            movementTimer = new DispatcherTimer();
+            movementTimer.Interval = TimeSpan.FromMilliseconds(20);
+            movementTimer.Tick += MovementTimer_Tick;
+            movementTimer.Start();
+        }
+
+        private void MovementTimer_Tick(object? sender, EventArgs e)
+        {
+            //GESTION DU JOUEUR
+            // récupération sûre de la position left
+            double left = Canvas.GetLeft(imgHelico);
+            if (double.IsNaN(left))
+                left = 0;
+
+            // cas exclusif : droite ou gauche
+            if (Adroite && !Agauche)
+            {
+                double maxLeft = canvasJeu.ActualWidth - imgHelico.Width;
+                double newLeft = left + MainWindow.PasHelico;
+                if (newLeft > maxLeft) newLeft = maxLeft;
+                Canvas.SetLeft(imgHelico, newLeft);
+            }
+            else if (Agauche && !Adroite)
+            {
+                double newLeft = left - MainWindow.PasHelico;
+                if (newLeft < 0) newLeft = 0;
+                Canvas.SetLeft(imgHelico, newLeft);
+            }
+            // GESTION ENNEMIS
+
+            enemieCounter--; // Diminution compteur
+            if (enemieCounter < 0)
+            {
+                MakeEnemies(); // Un nouvel ennemi apparaît
+                enemieCounter = limit; // On remet le compteur à zéro
+            }
+            // DEPLACEMENT ET COLLISIONS
+            List<UIElement> itemstoremove = new List<UIElement>();
+
+            #if DEBUG
+            Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
+#endif
+
+
+            foreach (var x in canvasJeu.Children.OfType<Rectangle>()) //enlever .OfType<Rectangle>() une fois les images ajoutées
+            {
+                //CAS : C'est un ennemi
+                if ((string)x.Tag == "enemy")
+                {
+                    // On le fait descendre
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 5);
+
+                    // Rectangles de collision
+                    Rect enemyRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect playerRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
+
+                    // Si l'ennemi touche le joueur
+                    if (playerRect.IntersectsWith(enemyRect))
+                    {
+                        itemstoremove.Add(x); // L'ennemi disparaît
+                        damage += 5; // Aïe !
+                    }
+                    // Si l'ennemi sort de l'écran en bas
+                    else if (Canvas.GetTop(x) > canvasJeu.ActualHeight)
+                    {
+                        itemstoremove.Add(x); // On le supprime pour libérer la mémoire
+                    }
+                }
+
+                //C'est une balle (tir)
+                if ((string)x.Tag == "bullet")
+                {
+                    // La balle monte
+                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+
+                    // Rectangles de collision
+                    Rect bulletRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                    // Si la balle sort de l'écran en haut
+                    if (Canvas.GetTop(x) < -20)
+                    {
+                        itemstoremove.Add(x);
+                    }
+                    else
+                    {
+                        // Vérifie si la balle touche un ennemi
+                        foreach (var y in canvasJeu.Children.OfType<Rectangle>())
+                        {
+                            if ((string)y.Tag == "enemy")
+                            {
+                                Rect enemyRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                                if (bulletRect.IntersectsWith(enemyRect))
+                                {
+                                    itemstoremove.Add(x); // Supprime la balle
+                                    itemstoremove.Add(y); // Supprime l'ennemi
+                                    score++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+            // On supprime vraiment les objets marqués
+            foreach (UIElement i in itemstoremove)
+            {
+                canvasJeu.Children.Remove(i);
+            }
+        }
+
+        // Cette méthode crée un ennemi (carré rouge)
+        private void MakeEnemies()
+        {
+            Rectangle newEnemy = new Rectangle
+            {
+                Tag = "enemy", // Pour le reconnaître plus tard
+                Height = 40,
+                Width = 40,
+                Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
+                Stroke = Brushes.Black
+            };
+
+            // On le place aléatoirement en largeur (X)
+            Canvas.SetLeft(newEnemy, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+
+            // On le place juste au-dessus de l'écran en hauteur (Y)
+            Canvas.SetTop(newEnemy, -50);
+
+            // On l'ajoute au jeu
+            canvasJeu.Children.Add(newEnemy);
+        }
+
+        //GESTION DES TOUCHES
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current?.MainWindow != null)
+            {
+                Application.Current.MainWindow.KeyDown += canvasJeu_KeyDown;
+                Application.Current.MainWindow.KeyUp += canvasJeu_KeyUp;
+            }
+            canvasJeu.Focus();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current?.MainWindow != null)
+            {
+                Application.Current.MainWindow.KeyDown -= canvasJeu_KeyDown;
+                Application.Current.MainWindow.KeyUp -= canvasJeu_KeyUp;
+            }
+            movementTimer?.Stop();
+        }
+
+        private void canvasJeu_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Right) Adroite = true;
+            else if (e.Key == Key.Left) Agauche = true;
+        }
+
+        private void canvasJeu_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Right) Adroite = false;
+            else if (e.Key == Key.Left) Agauche = false;
+
+            if (e.Key == Key.Space)
+            {
+                Rectangle newBullet = new Rectangle
+                {
+                    Tag = "bullet",
+                    Height = 20,
+                    Width = 5,
+                    Fill = Brushes.White,
+                    Stroke = Brushes.Red
+                };
+                Canvas.SetTop(newBullet, Canvas.GetTop(imgHelico) - newBullet.Height);
+                Canvas.SetLeft(newBullet, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
+                canvasJeu.Children.Add(newBullet);
+            }
         }
     }
 }
