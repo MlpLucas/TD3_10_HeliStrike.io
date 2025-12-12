@@ -6,19 +6,25 @@
              xmlns:local="clr-namespace:GithubWpf"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
+    
+
     <Grid>
-        <Button x:Name="butQuitter" Content="Button" HorizontalAlignment="Center" Margin="277.5,450,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
+        <Label x:Name="labelScore" Content="SCORE" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label x:Name="labelMeilleurScore" Content="MEILLEUR_SCORE" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,410,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <Label x:Name="labelAfficheScore" Content="Votre score" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Label x:Name="labelAfficheMeilleurScore" Content="Votre meilleur score" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,380,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Image x:Name="imgPerdu" HorizontalAlignment="Center" Source="/Images/imgPerdu.png" Margin="0,82,0,0" VerticalAlignment="Top" Width="500"/>
+        
+
+        <Button x:Name="butQuitter" Content="" HorizontalAlignment="Center" Margin="277.5,450,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgQuitter.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butRejouer" Content="Button" HorizontalAlignment="Center" Margin="277.5,200,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
+        <Button x:Name="butRejouer" Content="" HorizontalAlignment="Center" Margin="277.5,200,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgRejouer.png"/>
             </Button.Background>
         </Button>
-        <Label x:Name="labScore" Content="Label" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="labMeilleurScore" Content="Label" HorizontalAlignment="Left" Margin="362,410,0,0" VerticalAlignment="Top"/>
-
     </Grid>
 </UserControl>

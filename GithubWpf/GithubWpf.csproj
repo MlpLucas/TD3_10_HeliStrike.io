@@ -40,12 +40,14 @@
     <None Remove="Images\Helicoptere\helico1-5.png" />
     <None Remove="Images\Helicoptere\helico1-6.png" />
     <None Remove="Images\Helicoptere\helico1-profile.png" />
+    <None Remove="Images\imgPerdu.png" />
+    <None Remove="Images\imgReglages.png" />
     <None Remove="Images\Logo1.png" />
     <None Remove="Images\LogoRegle.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\HeliStrike.ico" />
+    <Resource Include="Images\HeliStrike.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +75,8 @@
     <Resource Include="Images\imgCadreRegles.png" />
     <Resource Include="Images\Bouton\imgRegle.png" />
     <Resource Include="Images\Bouton\imgRetour.png" />
+    <Resource Include="Images\imgPerdu.png" />
+    <Resource Include="Images\imgReglages.png" />
     <Resource Include="Images\Logo1.png" />
     <Resource Include="Images\LogoRegle.png" />
   </ItemGroup>

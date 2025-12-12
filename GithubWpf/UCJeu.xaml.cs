@@ -31,7 +31,6 @@ namespace GithubWpf
         int cadenceTir = 8;
         int tempsRecharge = 0;
         int nb_animation_helico = 0;
-        int score = 0;
         int pointVie = 5; // Ne pas changer !!
 
         //Test
@@ -196,7 +195,7 @@ namespace GithubWpf
                                 {
                                     magasinItemMouv.Add(x); // Supprime la balle
                                     magasinItemMouv.Add(y); // Supprime l'ennemi
-                                    score+=3;
+                                    MainWindow.Score+=3;
                                     AffichageScore();
                                 }
                             }
@@ -207,7 +206,7 @@ namespace GithubWpf
             scoreTemp--;
             if (scoreTemp <0)
             {
-                score++;
+                MainWindow.Score++;
                 scoreTemp = scoreLimit;
                 AffichageScore();
             }
@@ -224,7 +223,7 @@ namespace GithubWpf
         
         public void AffichageScore()
         {
-            labelScore.Content = score.ToString();
+            labelScore.Content = MainWindow.Score.ToString();
         }
 
         private void AnimationHelico() //Animation des hélices
@@ -238,14 +237,25 @@ namespace GithubWpf
 
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
+        //{
+        //    Rectangle nouveauEnnemi = new Rectangle
+        //    {
+        //        Tag = "ennemi", // Pour le reconnaître plus tard
+        //        Height = 40,
+        //        Width = 40,
+        //        Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
+        //        Stroke = Brushes.Black
+        //    };
         {
-            Rectangle nouveauEnnemi = new Rectangle
+            // Créer le contrôle Image
+            Image nouveauEnnemi = new Image
             {
-                Tag = "ennemi", // Pour le reconnaître plus tard
+                Tag = "ennemi", // Pour le reconnaître
                 Height = 40,
                 Width = 40,
-                Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
-                Stroke = Brushes.Black
+                Source = new BitmapImage(new Uri("pack://application:,,,/Images/Helicoptere/helico1-profile.png")),
+                // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
+                Stretch = Stretch.UniformToFill
             };
 
             // On le place aléatoirement en largeur (X)
