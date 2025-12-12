@@ -29,13 +29,13 @@ namespace GithubWpf
         Random rand = new Random();
         int cadenceTir = 8;
         int tempsRecharge = 0;
-        int nb = 0;
-
+        int nb_animation_helico = 0;
+        int score = 0;
 
         //Test
         int enemieCounter;
         int limit = 50;
-        int score = 0;
+        
         int damage = 0;
         Rect playerHitBox;
 
@@ -186,6 +186,7 @@ namespace GithubWpf
                                     itemstoremove.Add(x); // Supprime la balle
                                     itemstoremove.Add(y); // Supprime l'ennemi
                                     score++;
+                                    AffichageScore();
                                 }
                             }
                         }
@@ -201,14 +202,19 @@ namespace GithubWpf
             }
             AnimationHelico();
         }
+        
+        public void AffichageScore()
+        {
+            labelScore.Content = score.ToString();
+        }
 
         private void AnimationHelico() //Animation des hélices
         {
-            nb++;
-            if (nb ==Helico1.Length * 4)
-                nb = 0;
-            if (nb % 4 == 0)
-                imgHelico.Source = Helico1[nb / 4];
+            nb_animation_helico++;
+            if (nb_animation_helico == Helico1.Length * 4)
+                nb_animation_helico = 0;
+            if (nb_animation_helico % 4 == 0)
+                imgHelico.Source = Helico1[nb_animation_helico / 4];
         }
 
         // Cette méthode crée un ennemi (carré rouge)
