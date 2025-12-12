@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
-        <Button x:Name="butQuitter" Content="Button" HorizontalAlignment="Center" Margin="277.5,450,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
+        <Button x:Name="butQuitter" Content="" HorizontalAlignment="Center" Margin="277.5,450,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgQuitter.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="butRejouer" Content="Button" HorizontalAlignment="Center" Margin="277.5,200,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
+        <Button x:Name="butRejouer" Content="" HorizontalAlignment="Center" Margin="277.5,200,277.5,0" VerticalAlignment="Center" Width="245" Height="80">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgRejouer.png"/>
             </Button.Background>
