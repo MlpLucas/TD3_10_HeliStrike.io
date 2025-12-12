@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Media;
 
 namespace GithubWpf
 {
@@ -23,9 +24,13 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
+        //Son
+        private MediaPlayer TirJoueur = new MediaPlayer();
+
+
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
-        private BitmapImage[] Meteor = new BitmapImage[4];
+        private BitmapImage[] Meteor = new BitmapImage[5];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
@@ -105,6 +110,7 @@ namespace GithubWpf
             // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
             if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
             {
+                SonTirHelicoptere();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
             }
@@ -273,28 +279,19 @@ namespace GithubWpf
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
         {
-            //Rectangle nouveauEnnemi = new Rectangle
-            //{
-            //    Tag = "ennemi", // Pour le reconnaître plus tard
-            //    Height = 40,
-            //    Width = 40,
-            //    Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
-            //    Stroke = Brushes.Black
-            //};
             {
                 // Créer le contrôle Image
                 Image nouveauEnnemi = new Image
                 {
                     Tag = "ennemi", // Pour le reconnaître
-                    Height = 40,
-                    Width = 40,
-                    Source = new BitmapImage(new Uri("pack://application:,,,/Images/Helicoptere/helico1-profile.png")),
+                    Height = 128,
+                    Width = 64,
                     // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
                     Stretch = Stretch.UniformToFill
                 };
 
                 // On le place aléatoirement en largeur (X)
-                Canvas.SetLeft(nouveauEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+                Canvas.SetLeft(nouveauEnnemi, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
 
                 // On le place juste au-dessus de l'écran en hauteur (Y)
                 Canvas.SetTop(nouveauEnnemi, -50);
@@ -362,5 +359,11 @@ namespace GithubWpf
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
 
+        private void SonTirHelicoptere() //FONCTIONNE PAS
+        {
+            TirJoueur.Open(new Uri("pack://application:,,,/Son/SonTir1.wav"));
+            TirJoueur.Position = TimeSpan.Zero;
+            TirJoueur.Play();
+        }
     }
 }

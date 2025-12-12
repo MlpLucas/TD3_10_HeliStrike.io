@@ -41,6 +41,7 @@ namespace GithubWpf
                 labelAfficheMeilleurScore.Content = "Nouveau meilleur score !";
             }
             labelMeilleurScore.Content = MainWindow.MeilleurScore.ToString();
+            MainWindow.Score = 0; // Réinitialiser le score pour la prochaine partie
         }
     }
 }
