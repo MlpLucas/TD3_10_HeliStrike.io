@@ -22,8 +22,10 @@
     <None Remove="Images\Bouton\imgBoutique.png" />
     <None Remove="Images\Bouton\imgJouer.png" />
     <None Remove="Images\Bouton\imgProfil.png" />
-    <None Remove="Images\Bouton\imgReglage.png" />
+    <None Remove="Images\Bouton\imgQuitter.png" />
+    <None Remove="Images\Bouton\imgReglages.png" />
     <None Remove="Images\Bouton\imgRegle.png" />
+    <None Remove="Images\Bouton\imgRejouer.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
     <None Remove="Images\Helicoptere\helico1-1.png" />
     <None Remove="Images\Helicoptere\helico1-2.png" />
@@ -33,6 +35,7 @@
     <None Remove="Images\Helicoptere\helico1-6.png" />
     <None Remove="Images\Helicoptere\helico1-profile.png" />
     <None Remove="Images\Logo1.png" />
+    <None Remove="Images\LogoRegle.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +48,9 @@
     <Resource Include="Images\Bouton\imgBoutique.png" />
     <Resource Include="Images\Bouton\imgJouer.png" />
     <Resource Include="Images\Bouton\imgProfil.png" />
-    <Resource Include="Images\Bouton\imgReglage.png" />
+    <Resource Include="Images\Bouton\imgQuitter.png" />
+    <Resource Include="Images\Bouton\imgReglages.png" />
+    <Resource Include="Images\Bouton\imgRejouer.png" />
     <Resource Include="Images\Helicoptere\helico1-1.png" />
     <Resource Include="Images\Helicoptere\helico1-2.png" />
     <Resource Include="Images\Helicoptere\helico1-3.png" />
@@ -57,6 +62,7 @@
     <Resource Include="Images\Bouton\imgRegle.png" />
     <Resource Include="Images\Bouton\imgRetour.png" />
     <Resource Include="Images\Logo1.png" />
+    <Resource Include="Images\LogoRegle.png" />
   </ItemGroup>
 
 </Project>

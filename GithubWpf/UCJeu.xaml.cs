@@ -137,17 +137,17 @@ namespace GithubWpf
             foreach (var x in canvasJeu.Children.OfType<Rectangle>()) //enlever .OfType<Rectangle>() une fois les images ajoutées
             {
                 //CAS : C'est un ennemi
-                if ((string)x.Tag == "enemy")
+                if ((string)x.Tag == "ennemi")
                 {
                     // On le fait descendre
                     Canvas.SetTop(x, Canvas.GetTop(x) + 5);
 
                     // Rectangles de collision
-                    Rect enemyRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect ennemiRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
 
                     // Si l'ennemi touche le joueur
-                    if (joueurRect.IntersectsWith(enemyRect))
+                    if (joueurRect.IntersectsWith(ennemiRect))
                     {
                         magasinItemMouv.Add(x); // L'ennemi disparaît
                         damage += 5; // Aïe !
@@ -160,13 +160,13 @@ namespace GithubWpf
                 }
 
                 //C'est une balle (tir)
-                if ((string)x.Tag == "bullet")
+                if ((string)x.Tag == "balle")
                 {
                     // La balle monte
                     Canvas.SetTop(x, Canvas.GetTop(x) - 20);
 
                     // Rectangles de collision
-                    Rect bulletRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect balleRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // Si la balle sort de l'écran en haut
                     if (Canvas.GetTop(x) < -20)
@@ -178,11 +178,11 @@ namespace GithubWpf
                         // Vérifie si la balle touche un ennemi
                         foreach (var y in canvasJeu.Children.OfType<Rectangle>())
                         {
-                            if ((string)y.Tag == "enemy")
+                            if ((string)y.Tag == "ennemi")
                             {
-                                Rect enemyRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                                Rect ennemiRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
-                                if (bulletRect.IntersectsWith(enemyRect))
+                                if (balleRect.IntersectsWith(ennemiRect))
                                 {
                                     magasinItemMouv.Add(x); // Supprime la balle
                                     magasinItemMouv.Add(y); // Supprime l'ennemi
@@ -221,9 +221,9 @@ namespace GithubWpf
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
         {
-            Rectangle newEnemy = new Rectangle
+            Rectangle nouveauEnnemi = new Rectangle
             {
-                Tag = "enemy", // Pour le reconnaître plus tard
+                Tag = "ennemi", // Pour le reconnaître plus tard
                 Height = 40,
                 Width = 40,
                 Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
@@ -231,13 +231,13 @@ namespace GithubWpf
             };
 
             // On le place aléatoirement en largeur (X)
-            Canvas.SetLeft(newEnemy, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+            Canvas.SetLeft(nouveauEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
 
             // On le place juste au-dessus de l'écran en hauteur (Y)
-            Canvas.SetTop(newEnemy, -50);
+            Canvas.SetTop(nouveauEnnemi, -50);
 
             // On l'ajoute au jeu
-            canvasJeu.Children.Add(newEnemy);
+            canvasJeu.Children.Add(nouveauEnnemi);
         }
 
         //GESTION DES TOUCHES
@@ -276,7 +276,7 @@ namespace GithubWpf
         {
             Rectangle nouveauTir = new Rectangle
             {
-                Tag = "bullet",
+                Tag = "balle",
                 Height = 20,
                 Width = 5,
                 Fill = Brushes.OrangeRed,
