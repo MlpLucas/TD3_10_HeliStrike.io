@@ -313,6 +313,7 @@ namespace GithubWpf
         {
             movementTimer.Stop();
             MainWindow.FinJeu = true;
+            Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
 
     }

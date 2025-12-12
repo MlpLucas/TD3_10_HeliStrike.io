@@ -49,6 +49,13 @@ namespace GithubWpf
         {
             Deplace(imgFond1, pasFond);
             Deplace(imgFond2, pasFond);
+
+
+            if (MainWindow.FinJeu == true)
+            {
+                AfficheFinJeu();
+                Console.WriteLine("Le jeu est terminé. mainWindow");
+            }
         }
 
         public void Deplace(Image image, int pas)
@@ -102,10 +109,6 @@ namespace GithubWpf
         {
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;
-            if (FinJeu == true)
-            {
-                AfficheFinJeu();
-            }
         }
 
         private void AfficheFinJeu()
