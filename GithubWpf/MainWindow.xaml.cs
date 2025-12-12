@@ -115,6 +115,8 @@ namespace GithubWpf
         {
             UCFinJeu uc = new UCFinJeu();
             ZoneJeu.Content = uc;
+            uc.butQuitter.Click += AfficheDemarrage;
+            uc.butRejouer.Click += AfficheJeu;
         }
     }
 }
