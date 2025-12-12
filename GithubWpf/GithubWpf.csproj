@@ -33,6 +33,7 @@
     <None Remove="Images\Bouton\imgRegle.png" />
     <None Remove="Images\Bouton\imgRejouer.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
+    <None Remove="Images\FonFinJeu.png" />
     <None Remove="Images\Helicoptere\helico1-1.png" />
     <None Remove="Images\Helicoptere\helico1-2.png" />
     <None Remove="Images\Helicoptere\helico1-3.png" />
@@ -63,6 +64,7 @@
     <Resource Include="Images\Bouton\imgQuitter.png" />
     <Resource Include="Images\Bouton\imgReglages.png" />
     <Resource Include="Images\Bouton\imgRejouer.png" />
+    <Resource Include="Images\FonFinJeu.png" />
     <Resource Include="Images\Helicoptere\helico1-1.png" />
     <Resource Include="Images\Helicoptere\helico1-2.png" />
     <Resource Include="Images\Helicoptere\helico1-3.png" />
