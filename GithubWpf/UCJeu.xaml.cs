@@ -237,35 +237,36 @@ namespace GithubWpf
 
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
-        //{
-        //    Rectangle nouveauEnnemi = new Rectangle
-        //    {
-        //        Tag = "ennemi", // Pour le reconnaître plus tard
-        //        Height = 40,
-        //        Width = 40,
-        //        Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
-        //        Stroke = Brushes.Black
-        //    };
         {
-            // Créer le contrôle Image
-            Image nouveauEnnemi = new Image
+            Rectangle nouveauEnnemi = new Rectangle
             {
-                Tag = "ennemi", // Pour le reconnaître
+                Tag = "ennemi", // Pour le reconnaître plus tard
                 Height = 40,
                 Width = 40,
-                Source = new BitmapImage(new Uri("pack://application:,,,/Images/Helicoptere/helico1-profile.png")),
-                // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
-                Stretch = Stretch.UniformToFill
+                Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
+                Stroke = Brushes.Black
             };
+            {
+                // Créer le contrôle Image
+                //Image nouveauEnnemi = new Image
+                //{
+                //    Tag = "ennemi", // Pour le reconnaître
+                //    Height = 40,
+                //    Width = 40,
+                //    Source = new BitmapImage(new Uri("pack://application:,,,/Images/Helicoptere/helico1-profile.png")),
+                //    // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
+                //    Stretch = Stretch.UniformToFill
+                //};
 
-            // On le place aléatoirement en largeur (X)
-            Canvas.SetLeft(nouveauEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+                // On le place aléatoirement en largeur (X)
+                Canvas.SetLeft(nouveauEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
 
-            // On le place juste au-dessus de l'écran en hauteur (Y)
-            Canvas.SetTop(nouveauEnnemi, -50);
+                // On le place juste au-dessus de l'écran en hauteur (Y)
+                Canvas.SetTop(nouveauEnnemi, -50);
 
-            // On l'ajoute au jeu
-            canvasJeu.Children.Add(nouveauEnnemi);
+                // On l'ajoute au jeu
+                canvasJeu.Children.Add(nouveauEnnemi);
+            }
         }
 
         //GESTION DES TOUCHES

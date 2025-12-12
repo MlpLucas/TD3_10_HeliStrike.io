@@ -43,7 +43,7 @@ namespace GithubWpf
 
         public static bool FinJeu { get; set; } = false;
 
-
+        // Variable Score et Meilleur Score
         public static int Score { get; set; } = 0;
         public static int MeilleurScore { get; set; } = 0;
 
