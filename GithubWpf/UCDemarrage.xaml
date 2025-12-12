@@ -22,7 +22,7 @@
 
         <Button x:Name="butReglages" Content="" Width="245" Height="80" Foreground="White" FontWeight="Bold" FontSize="22" Margin="250,500,250,0" BorderBrush="#00707070">
             <Button.Background>
-                <ImageBrush ImageSource="/Images/Bouton/imgReglage.png"/>
+                <ImageBrush ImageSource="/Images/Bouton/imgReglages.png"/>
             </Button.Background>
         </Button>
 
