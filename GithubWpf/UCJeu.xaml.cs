@@ -37,7 +37,9 @@ namespace GithubWpf
         //Test
         int enemieCounter;
         int limit = 50;
-        
+        double scoreLimit = 31.25 ,scoreTemp;
+
+
         Rect playerHitBox;
 
         public UCJeu()
@@ -186,13 +188,20 @@ namespace GithubWpf
                                 {
                                     magasinItemMouv.Add(x); // Supprime la balle
                                     magasinItemMouv.Add(y); // Supprime l'ennemi
-                                    score++;
+                                    score+=3;
                                     AffichageScore();
                                 }
                             }
                         }
                     }
                 }
+            }
+            scoreTemp--;
+            if (scoreTemp <0)
+            {
+                score++;
+                scoreTemp = scoreLimit;
+                AffichageScore();
             }
 
             

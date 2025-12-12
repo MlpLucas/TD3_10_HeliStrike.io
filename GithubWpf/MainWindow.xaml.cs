@@ -39,7 +39,7 @@ namespace GithubWpf
 
         //Choix du personnage + vitesse hélico
         public static string Perso { get; set; } = "1";
-        public static int PasHelico { get; set; } = 6;
+        public static int PasHelico { get; set; } = 8;
 
 
         //Animation background
