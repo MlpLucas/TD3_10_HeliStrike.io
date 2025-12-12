@@ -113,6 +113,7 @@ namespace GithubWpf
 
         private void AfficheFinJeu()
         {
+            MainWindow.FinJeu = false;
             UCFinJeu uc = new UCFinJeu();
             ZoneJeu.Content = uc;
             uc.butQuitter.Click += AfficheDemarrage;
