@@ -25,8 +25,8 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         //Son
-        private MediaPlayer TirJoueur = new MediaPlayer();
-
+        private static SoundPlayer TirJoueur;
+        
 
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
@@ -54,7 +54,8 @@ namespace GithubWpf
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
- 
+            InitialisationSonTirHelicoptere();
+
 
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -110,7 +111,7 @@ namespace GithubWpf
             // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
             if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
             {
-                SonTirHelicoptere();
+                TirJoueur.Play();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
             }
@@ -359,11 +360,9 @@ namespace GithubWpf
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
 
-        private void SonTirHelicoptere() //FONCTIONNE PAS
+        private void InitialisationSonTirHelicoptere() //FONCTIONNE PAS
         {
-            TirJoueur.Open(new Uri("pack://application:,,,/Son/SonTir1.wav"));
-            TirJoueur.Position = TimeSpan.Zero;
-            TirJoueur.Play();
+            TirJoueur = new SoundPlayer(Application.GetResourceStream(new Uri("pack://application:,,,/Son/SonTir1.wav")).Stream);
         }
     }
 }
