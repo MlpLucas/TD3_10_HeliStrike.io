@@ -9,5 +9,6 @@
     <Canvas x:Name="canvasJeu">
         <Image x:Name="imgHelico" Height="245" Stretch="Fill" Canvas.Top="742" Width="165" Canvas.Left="254" Margin="0,-60,0,0"/>
         <Label x:Name="labelScore" Content="0" HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="/Font/#5x7 mt pixel" HorizontalContentAlignment="Right" FontSize="48" Width="212" Margin="570,11,0,0" />
+        <Image x:Name="imgPointVie" Height="64" Canvas.Left="10" Stretch="Fill" Canvas.Top="11" Width="172.5"/>
     </Canvas>
 </UserControl>

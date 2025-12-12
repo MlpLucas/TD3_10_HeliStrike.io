@@ -19,12 +19,17 @@
   <ItemGroup>
     <None Remove="Font\5x7 MT Pixel.ttf" />
     <None Remove="Images\background1.png" />
+    <None Remove="Images\BarreDeVie\Barre0.png" />
+    <None Remove="Images\BarreDeVie\Barre1.png" />
+    <None Remove="Images\BarreDeVie\Barre2.png" />
+    <None Remove="Images\BarreDeVie\Barre3.png" />
+    <None Remove="Images\BarreDeVie\Barre4.png" />
+    <None Remove="Images\BarreDeVie\Barre5.png" />
     <None Remove="Images\Bouton\imgBoutique.png" />
     <None Remove="Images\Bouton\imgJouer.png" />
     <None Remove="Images\Bouton\imgProfil.png" />
-    <None Remove="Images\Bouton\imgQuitter.png" />
+    <None Remove="Images\Bouton\imgReglage.png" />
     <None Remove="Images\Bouton\imgRegle.png" />
-    <None Remove="Images\Bouton\imgRejouer.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
     <None Remove="Images\Helicoptere\helico1-1.png" />
     <None Remove="Images\Helicoptere\helico1-2.png" />
@@ -34,7 +39,6 @@
     <None Remove="Images\Helicoptere\helico1-6.png" />
     <None Remove="Images\Helicoptere\helico1-profile.png" />
     <None Remove="Images\Logo1.png" />
-    <None Remove="Images\LogoRegle.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,11 +48,16 @@
   <ItemGroup>
     <Resource Include="Font\5x7 MT Pixel.ttf" />
     <Resource Include="Images\background1.png" />
+    <Resource Include="Images\BarreDeVie\Barre0.png" />
+    <Resource Include="Images\BarreDeVie\Barre1.png" />
+    <Resource Include="Images\BarreDeVie\Barre2.png" />
+    <Resource Include="Images\BarreDeVie\Barre3.png" />
+    <Resource Include="Images\BarreDeVie\Barre4.png" />
+    <Resource Include="Images\BarreDeVie\Barre5.png" />
     <Resource Include="Images\Bouton\imgBoutique.png" />
     <Resource Include="Images\Bouton\imgJouer.png" />
     <Resource Include="Images\Bouton\imgProfil.png" />
-    <Resource Include="Images\Bouton\imgQuitter.png" />
-    <Resource Include="Images\Bouton\imgRejouer.png" />
+    <Resource Include="Images\Bouton\imgReglage.png" />
     <Resource Include="Images\Helicoptere\helico1-1.png" />
     <Resource Include="Images\Helicoptere\helico1-2.png" />
     <Resource Include="Images\Helicoptere\helico1-3.png" />
@@ -60,7 +69,6 @@
     <Resource Include="Images\Bouton\imgRegle.png" />
     <Resource Include="Images\Bouton\imgRetour.png" />
     <Resource Include="Images\Logo1.png" />
-    <Resource Include="Images\LogoRegle.png" />
   </ItemGroup>
 
 </Project>

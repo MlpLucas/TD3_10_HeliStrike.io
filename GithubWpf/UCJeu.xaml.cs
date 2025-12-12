@@ -24,6 +24,7 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         private BitmapImage[] Helico1 = new BitmapImage[6];
+        private BitmapImage[] BarreDeVie = new BitmapImage[6];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
@@ -31,8 +32,7 @@ namespace GithubWpf
         int tempsRecharge = 0;
         int nb_animation_helico = 0;
         int score = 0;
-        int damage = 0;
-        int pointVie = 3;
+        int pointVie = 5; // Ne pas changer !!
 
         //Test
         int enemieCounter;
@@ -61,10 +61,14 @@ namespace GithubWpf
             try
             {
                 // Charge les images de l'hélico
-               
                 for (int i = 0; i < Helico1.Length; i++)
                 {
                     Helico1[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-{i + 1}.png"));
+                }
+                // Charge les images de la barre de vie
+                for (int i = 0; i < BarreDeVie.Length; i++)
+                {
+                    BarreDeVie[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/BarreDeVie/Barre{i}.png"));
                 }
             }
             catch
@@ -137,20 +141,24 @@ namespace GithubWpf
             foreach (var x in canvasJeu.Children.OfType<Rectangle>()) //enlever .OfType<Rectangle>() une fois les images ajoutées
             {
                 //CAS : C'est un ennemi
-                if ((string)x.Tag == "ennemi")
+                if ((string)x.Tag == "enemy")
                 {
                     // On le fait descendre
                     Canvas.SetTop(x, Canvas.GetTop(x) + 5);
 
                     // Rectangles de collision
-                    Rect ennemiRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect enemyRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
 
                     // Si l'ennemi touche le joueur
-                    if (joueurRect.IntersectsWith(ennemiRect))
+                    if (joueurRect.IntersectsWith(enemyRect))
                     {
                         magasinItemMouv.Add(x); // L'ennemi disparaît
-                        damage += 5; // Aïe !
+                        pointVie -= 1; // Aïe !
+                        imgPointVie.Source = BarreDeVie[pointVie];
+                        if (pointVie <= 0)
+                            FinDeJeu();
+
                     }
                     // Si l'ennemi sort de l'écran en bas
                     else if (Canvas.GetTop(x) > canvasJeu.ActualHeight)
@@ -160,13 +168,13 @@ namespace GithubWpf
                 }
 
                 //C'est une balle (tir)
-                if ((string)x.Tag == "balle")
+                if ((string)x.Tag == "bullet")
                 {
                     // La balle monte
                     Canvas.SetTop(x, Canvas.GetTop(x) - 20);
 
                     // Rectangles de collision
-                    Rect balleRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect bulletRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
 
                     // Si la balle sort de l'écran en haut
                     if (Canvas.GetTop(x) < -20)
@@ -178,11 +186,11 @@ namespace GithubWpf
                         // Vérifie si la balle touche un ennemi
                         foreach (var y in canvasJeu.Children.OfType<Rectangle>())
                         {
-                            if ((string)y.Tag == "ennemi")
+                            if ((string)y.Tag == "enemy")
                             {
-                                Rect ennemiRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                                Rect enemyRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
 
-                                if (balleRect.IntersectsWith(ennemiRect))
+                                if (bulletRect.IntersectsWith(enemyRect))
                                 {
                                     magasinItemMouv.Add(x); // Supprime la balle
                                     magasinItemMouv.Add(y); // Supprime l'ennemi
@@ -202,6 +210,7 @@ namespace GithubWpf
                 canvasJeu.Children.Remove(i);
             }
             AnimationHelico();
+            imgPointVie.Source = BarreDeVie[pointVie];
         }
         
         public void AffichageScore()
@@ -221,9 +230,9 @@ namespace GithubWpf
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
         {
-            Rectangle newEnnemi = new Rectangle
+            Rectangle newEnemy = new Rectangle
             {
-                Tag = "ennemi", // Pour le reconnaître plus tard
+                Tag = "enemy", // Pour le reconnaître plus tard
                 Height = 40,
                 Width = 40,
                 Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
@@ -231,13 +240,13 @@ namespace GithubWpf
             };
 
             // On le place aléatoirement en largeur (X)
-            Canvas.SetLeft(newEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+            Canvas.SetLeft(newEnemy, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
 
             // On le place juste au-dessus de l'écran en hauteur (Y)
-            Canvas.SetTop(newEnnemi, -50);
+            Canvas.SetTop(newEnemy, -50);
 
             // On l'ajoute au jeu
-            canvasJeu.Children.Add(newEnnemi);
+            canvasJeu.Children.Add(newEnemy);
         }
 
         //GESTION DES TOUCHES
@@ -276,7 +285,7 @@ namespace GithubWpf
         {
             Rectangle nouveauTir = new Rectangle
             {
-                Tag = "balle",
+                Tag = "bullet",
                 Height = 20,
                 Width = 5,
                 Fill = Brushes.OrangeRed,
@@ -289,6 +298,12 @@ namespace GithubWpf
 
             // L'ajoute au jeu
             canvasJeu.Children.Add(nouveauTir);
+        }
+        
+        private void FinDeJeu()
+        {
+            movementTimer.Stop();
+            MainWindow.FinJeu = true;
         }
 
     }
