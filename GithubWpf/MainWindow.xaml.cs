@@ -41,6 +41,7 @@ namespace GithubWpf
         public static string Perso { get; set; } = "1";
         public static int PasHelico { get; set; } = 8;
 
+        public static bool FinJeu { get; set; } = false;
 
         //Animation background
         private static int pasFond = 4;
@@ -101,8 +102,16 @@ namespace GithubWpf
         {
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;
+            if (FinJeu == true)
+            {
+                AfficheFinJeu();
+            }
         }
 
-
+        private void AfficheFinJeu()
+        {
+            UCFinJeu uc = new UCFinJeu();
+            ZoneJeu.Content = uc;
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         private BitmapImage[] Helico1 = new BitmapImage[6];
+        private BitmapImage[] BarreDeVie = new BitmapImage[6];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
@@ -31,8 +32,7 @@ namespace GithubWpf
         int tempsRecharge = 0;
         int nb_animation_helico = 0;
         int score = 0;
-        int damage = 0;
-        int pointVie = 3;
+        int pointVie = 5; // Ne pas changer !!
 
         //Test
         int enemieCounter;
@@ -63,10 +63,14 @@ namespace GithubWpf
             try
             {
                 // Charge les images de l'hélico
-               
                 for (int i = 0; i < Helico1.Length; i++)
                 {
                     Helico1[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-{i + 1}.png"));
+                }
+                // Charge les images de la barre de vie
+                for (int i = 0; i < BarreDeVie.Length; i++)
+                {
+                    BarreDeVie[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/BarreDeVie/Barre{i}.png"));
                 }
             }
             catch
@@ -152,7 +156,11 @@ namespace GithubWpf
                     if (joueurRect.IntersectsWith(ennemiRect))
                     {
                         magasinItemMouv.Add(x); // L'ennemi disparaît
-                        damage += 5; // Aïe !
+                        pointVie -= 1; // Aïe !
+                        imgPointVie.Source = BarreDeVie[pointVie];
+                        if (pointVie <= 0)
+                            FinDeJeu();
+
                     }
                     // Si l'ennemi sort de l'écran en bas
                     else if (Canvas.GetTop(x) > canvasJeu.ActualHeight)
@@ -211,6 +219,7 @@ namespace GithubWpf
                 canvasJeu.Children.Remove(i);
             }
             AnimationHelico();
+            imgPointVie.Source = BarreDeVie[pointVie];
         }
         
         public void AffichageScore()
@@ -298,6 +307,12 @@ namespace GithubWpf
 
             // L'ajoute au jeu
             canvasJeu.Children.Add(nouveauTir);
+        }
+        
+        private void FinDeJeu()
+        {
+            movementTimer.Stop();
+            MainWindow.FinJeu = true;
         }
 
     }

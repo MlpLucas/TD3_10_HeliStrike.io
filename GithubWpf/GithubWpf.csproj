@@ -19,6 +19,12 @@
   <ItemGroup>
     <None Remove="Font\5x7 MT Pixel.ttf" />
     <None Remove="Images\background1.png" />
+    <None Remove="Images\BarreDeVie\Barre0.png" />
+    <None Remove="Images\BarreDeVie\Barre1.png" />
+    <None Remove="Images\BarreDeVie\Barre2.png" />
+    <None Remove="Images\BarreDeVie\Barre3.png" />
+    <None Remove="Images\BarreDeVie\Barre4.png" />
+    <None Remove="Images\BarreDeVie\Barre5.png" />
     <None Remove="Images\Bouton\imgBoutique.png" />
     <None Remove="Images\Bouton\imgJouer.png" />
     <None Remove="Images\Bouton\imgProfil.png" />
@@ -45,6 +51,12 @@
   <ItemGroup>
     <Resource Include="Font\5x7 MT Pixel.ttf" />
     <Resource Include="Images\background1.png" />
+    <Resource Include="Images\BarreDeVie\Barre0.png" />
+    <Resource Include="Images\BarreDeVie\Barre1.png" />
+    <Resource Include="Images\BarreDeVie\Barre2.png" />
+    <Resource Include="Images\BarreDeVie\Barre3.png" />
+    <Resource Include="Images\BarreDeVie\Barre4.png" />
+    <Resource Include="Images\BarreDeVie\Barre5.png" />
     <Resource Include="Images\Bouton\imgBoutique.png" />
     <Resource Include="Images\Bouton\imgJouer.png" />
     <Resource Include="Images\Bouton\imgProfil.png" />
