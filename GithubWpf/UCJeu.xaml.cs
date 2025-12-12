@@ -23,7 +23,6 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
-        //private static BitmapImage Helico1;
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
@@ -47,8 +46,7 @@ namespace GithubWpf
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
-
-            //imgHelico.Source = Helico1;
+ 
 
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -60,12 +58,10 @@ namespace GithubWpf
 
         private void ChargeImageAnimation()
         {
-            //A COMPLETER pour gérer les différents hélicoptères
             try
             {
-                // Charge l'image de l'hélico
-                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico1-1.png"));
-                //Helico1 = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-1.png"));
+                // Charge les images de l'hélico
+               
                 for (int i = 0; i < Helico1.Length; i++)
                 {
                     Helico1[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Helicoptere/helico{MainWindow.Perso}-{i + 1}.png"));
@@ -131,7 +127,7 @@ namespace GithubWpf
                 enemieCounter = limit; // On remet le compteur à zéro
             }
             // DEPLACEMENT ET COLLISIONS
-            List<UIElement> itemstoremove = new List<UIElement>();
+            List<UIElement> magasinItemMouv = new List<UIElement>();
 
             #if DEBUG
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
@@ -148,18 +144,18 @@ namespace GithubWpf
 
                     // Rectangles de collision
                     Rect enemyRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    Rect playerRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
+                    Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
 
                     // Si l'ennemi touche le joueur
-                    if (playerRect.IntersectsWith(enemyRect))
+                    if (joueurRect.IntersectsWith(enemyRect))
                     {
-                        itemstoremove.Add(x); // L'ennemi disparaît
+                        magasinItemMouv.Add(x); // L'ennemi disparaît
                         damage += 5; // Aïe !
                     }
                     // Si l'ennemi sort de l'écran en bas
                     else if (Canvas.GetTop(x) > canvasJeu.ActualHeight)
                     {
-                        itemstoremove.Add(x); // On le supprime pour libérer la mémoire
+                        magasinItemMouv.Add(x); // On le supprime pour libérer la mémoire
                     }
                 }
 
@@ -175,7 +171,7 @@ namespace GithubWpf
                     // Si la balle sort de l'écran en haut
                     if (Canvas.GetTop(x) < -20)
                     {
-                        itemstoremove.Add(x);
+                        magasinItemMouv.Add(x);
                     }
                     else
                     {
@@ -188,8 +184,8 @@ namespace GithubWpf
 
                                 if (bulletRect.IntersectsWith(enemyRect))
                                 {
-                                    itemstoremove.Add(x); // Supprime la balle
-                                    itemstoremove.Add(y); // Supprime l'ennemi
+                                    magasinItemMouv.Add(x); // Supprime la balle
+                                    magasinItemMouv.Add(y); // Supprime l'ennemi
                                     score++;
                                     AffichageScore();
                                 }
@@ -201,7 +197,7 @@ namespace GithubWpf
 
             
             // On supprime vraiment les objets marqués
-            foreach (UIElement i in itemstoremove)
+            foreach (UIElement i in magasinItemMouv)
             {
                 canvasJeu.Children.Remove(i);
             }
@@ -278,7 +274,7 @@ namespace GithubWpf
         }
         private void CreerBalle()
         {
-            Rectangle newBullet = new Rectangle
+            Rectangle nouveauTir = new Rectangle
             {
                 Tag = "bullet",
                 Height = 20,
@@ -288,11 +284,11 @@ namespace GithubWpf
             };
 
             // Place la balle
-            Canvas.SetTop(newBullet, Canvas.GetTop(imgHelico) - newBullet.Height);
-            Canvas.SetLeft(newBullet, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
+            Canvas.SetTop(nouveauTir, Canvas.GetTop(imgHelico) - nouveauTir.Height);
+            Canvas.SetLeft(nouveauTir, Canvas.GetLeft(imgHelico) + imgHelico.Width / 2);
 
             // L'ajoute au jeu
-            canvasJeu.Children.Add(newBullet);
+            canvasJeu.Children.Add(nouveauTir);
         }
 
     }
