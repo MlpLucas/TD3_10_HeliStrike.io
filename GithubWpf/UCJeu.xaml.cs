@@ -32,12 +32,13 @@ namespace GithubWpf
         int tempsRecharge = 0;
         int nb_animation_helico = 0;
         int score = 0;
+        int damage = 0;
+        int pointVie = 3;
 
         //Test
         int enemieCounter;
         int limit = 50;
         
-        int damage = 0;
         Rect playerHitBox;
 
         public UCJeu()
