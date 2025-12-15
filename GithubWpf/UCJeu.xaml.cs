@@ -42,7 +42,7 @@ namespace GithubWpf
         //Son
         private MediaPlayer SonTirJoueur = new MediaPlayer();
         private MediaPlayer SonMeteorDetruit = new MediaPlayer();
-        private MediaPlayer MusiqueFond = new MediaPlayer();
+        private MediaPlayer MusiqueFondJeu = new MediaPlayer();
 
         // Images et animations
         private BitmapImage[] Helico1 = new BitmapImage[6];
