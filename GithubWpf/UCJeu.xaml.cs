@@ -42,14 +42,14 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         //Son
-        private MediaPlayer SonTirJoueur = new MediaPlayer();
-        private MediaPlayer SonMeteorDetruit = new MediaPlayer();
-        private MediaPlayer MusiqueFondJeu = new MediaPlayer();
+        private readonly MediaPlayer SonTirJoueur = new();
+        private readonly MediaPlayer SonMeteorDetruit = new();
+        private readonly MediaPlayer MusiqueFondJeu = new();
 
         // Images et animations
-        private BitmapImage[] Helico1 = new BitmapImage[6];
-        private BitmapImage[] BarreDeVie = new BitmapImage[6];
-        private BitmapImage[] Meteor = new BitmapImage[5];
+        private readonly BitmapImage[] Helico1 = new BitmapImage[6];
+        private readonly BitmapImage[] BarreDeVie = new BitmapImage[6];
+        private readonly BitmapImage[] Meteor = new BitmapImage[5];
         private BitmapImage Avion;
 
         // Timer
@@ -80,7 +80,6 @@ namespace GithubWpf
         private const int bonusScoreMeteor = 5;
         private const int bonusScoreAvion = 10;
 
-        Rect playerHitBox;
 
         public UCJeu()
         {
