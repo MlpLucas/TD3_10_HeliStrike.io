@@ -41,7 +41,7 @@ namespace GithubWpf
     {
         //Son
         private MediaPlayer TirJoueur = new MediaPlayer();
-        private MediaPlayer MusiqueFond = new MediaPlayer();
+        private MediaPlayer MusiqueFondJeu = new MediaPlayer();
 
         // Images et animations
         private BitmapImage[] Helico1 = new BitmapImage[6];
@@ -272,6 +272,19 @@ namespace GithubWpf
             AnimationHelico();
             AnimationMeteor();
             imgPointVie.Source = BarreDeVie[pointVie];
+            // Gestion de la vitesse des ennemis en fonction du score
+            // 5 = vitesse de base,+ (tout les packets de 200 de score rajoute +1) => modifier a droite du / pour changer 
+            int vitesseActuelle = 5 + (MainWindow.Score / 200);
+            /*limit (vitesse spawn ennemi) Math.Max choisie le plus grand nombre entre x et y Math.Max(x,y)
+            donc la limite est 20, tout les packet de 50 de score retire 1 a 50 de base (50 etant le nombre de tour avant spawn ennemi)
+            donc changer a droite du / pour ralentir le spawn ennemi et changer le 20 pour avoir la limite de spawn*/
+            limit = Math.Max(20, 50 - (MainWindow.Score / 50));
+
+            foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
+            {
+                // On applique la vitesse calculée
+                Canvas.SetTop(ennemiImage, Canvas.GetTop(ennemiImage) + vitesseActuelle);
+            }
         }
         
         public void AffichageScore()
@@ -412,10 +425,9 @@ namespace GithubWpf
             MainWindow.FinJeu = true;
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
-
+        // Gestion des sons (tir d'helico et musique de fond jeu)
         private void InitialisationSonTirHelicoptere()
         {
-            // MediaPlayer a besoin d'un chemin relatif simple (puisqu'on a mis le fichier en "Contenu")
             try
             {
                 TirJoueur.Open(new Uri("Son/SonTir1.wav", UriKind.Relative));
@@ -427,13 +439,13 @@ namespace GithubWpf
         }
         private void LancerMusique()
         {
-            MusiqueFond.Open(new Uri("Son/SonJeu.wav", UriKind.Relative));
+            MusiqueFondJeu.Open(new Uri("Son/SonJeu.wav", UriKind.Relative));
 
             // Formule : Master * Musique
-            MusiqueFond.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+            MusiqueFondJeu.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
 
-            MusiqueFond.MediaEnded += (s, e) => { MusiqueFond.Position = TimeSpan.Zero; MusiqueFond.Play(); }; // Boucle
-            MusiqueFond.Play();
+            MusiqueFondJeu.MediaEnded += (s, e) => { MusiqueFondJeu.Position = TimeSpan.Zero; MusiqueFondJeu.Play(); }; // Boucle
+            MusiqueFondJeu.Play();
         }
     }
 }

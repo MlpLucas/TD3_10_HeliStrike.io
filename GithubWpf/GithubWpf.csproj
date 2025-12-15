@@ -59,6 +59,8 @@
     <None Remove="Images\imgReglages.png" />
     <None Remove="Images\Logo1.png" />
     <None Remove="Images\LogoRegle.png" />
+    <None Remove="Son\SonDemarrage.mp3" />
+    <None Remove="Son\SonDemarrage.wav" />
     <None Remove="Son\SonJeu.wav" />
     <None Remove="Son\SonTir1.wav" />
   </ItemGroup>
@@ -112,6 +114,9 @@
     <Resource Include="Images\imgReglages.png" />
     <Resource Include="Images\Logo1.png" />
     <Resource Include="Images\LogoRegle.png" />
+    <Content Include="Son\SonDemarrage.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Son\SonJeu.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

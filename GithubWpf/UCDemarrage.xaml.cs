@@ -20,9 +20,30 @@ namespace GithubWpf
     /// </summary>
     public partial class UCDemarrage : UserControl
     {
+        private MediaPlayer MusiqueFondDemarrage = new MediaPlayer();
         public UCDemarrage()
         {
             InitializeComponent();
+            this.Unloaded += UCDemarrage_Unloaded;
+            LancerMusique();
+
+        }
+        //Gestion du son de fond dans le demarrage
+        private void LancerMusique()
+        {
+            MusiqueFondDemarrage.Open(new Uri("Son/SonDemarrage.wav", UriKind.Relative));
+
+            // Formule : Master * Musique
+            MusiqueFondDemarrage.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+
+            MusiqueFondDemarrage.MediaEnded += (s, e) => { MusiqueFondDemarrage.Position = TimeSpan.Zero; MusiqueFondDemarrage.Play(); }; // Boucle
+            MusiqueFondDemarrage.Play();
+        }
+        private void UCDemarrage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            MusiqueFondDemarrage.Stop();
+            MusiqueFondDemarrage.Close();
         }
     }
+
 }
