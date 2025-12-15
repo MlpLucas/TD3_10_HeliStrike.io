@@ -16,17 +16,21 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Media;
+using System.Diagnostics.Eventing.Reader;
 
 namespace GithubWpf
 {
     // Classe simple pour représenter un ennemi avec sa propre vie
     public class Ennemi : Image
     {
-        public int nbVieMeteor { get; set; }
+        public int nbVieEnnemi { get; set; }
+        // Ajout d'une propriété pour le type d'ennemi
+        public string TypeEnnemi { get; set; } // <--- AJOUT
 
         public Ennemi()
         {
             Tag = "ennemi";
+            TypeEnnemi = "meteor"; // <--- Par défaut, c'est une météorite
         }
     }
 
@@ -39,13 +43,17 @@ namespace GithubWpf
         private MediaPlayer TirJoueur = new MediaPlayer();
         private MediaPlayer MusiqueFond = new MediaPlayer();
 
-
+        // Images et animations
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
         private BitmapImage[] Meteor = new BitmapImage[5];
         private BitmapImage Avion;
+
+        // Timer
         private DispatcherTimer movementTimer;
+        // Controle
         private static bool Agauche, Adroite;
+
         Random rand = new Random();
         int cadenceTir = 8;
         int tempsRecharge = 0;
@@ -55,7 +63,12 @@ namespace GithubWpf
         int enemieCounter;
         int limit = 50;
         double scoreLimit = 31.25 ,scoreTemp;
-        private const int VieEnnemiInitiale = 3;
+        // Vie propre à chaque météorite / avion
+        private const int VieMeteorInitiale = 2;
+        private const int VieAvionInitiale = 4;
+
+        // Score minimum pour apparition
+        private const int scoreMinApparitionAvion = 50; // A CHANGER PLUS TARD
 
         Rect playerHitBox;
 
@@ -97,7 +110,7 @@ namespace GithubWpf
                     Meteor[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/meteor{i}.png"));
                 }
                 // Charger l'image avion
-                Avion = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/avion.png"));
+                Avion = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/Avion/avion1.png"));
             }
             catch
             {
@@ -216,7 +229,7 @@ namespace GithubWpf
                     }
                     else
                     {
-                        // Vérifie si la balle touche un ennemi (parmi les Enemy)
+                        // Vérifie si la balle touche un ennemi
                         foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
                         {
                             Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
@@ -224,11 +237,11 @@ namespace GithubWpf
                             if (balleRect.IntersectsWith(ennemiRect))
                             {
                                 // Vie propre à cet ennemi
-                                ennemiImage.nbVieMeteor--;
+                                ennemiImage.nbVieEnnemi--;
                                 // Supprime la balle
                                 magasinItemMouv.Add(balle);
 
-                                if (ennemiImage.nbVieMeteor <= 0)
+                                if (ennemiImage.nbVieEnnemi <= 0)
                                 {
                                     magasinItemMouv.Add(balle); // Supprime la balle
                                     magasinItemMouv.Add(ennemiImage); // Supprime l'ennemi
@@ -286,10 +299,13 @@ namespace GithubWpf
             {
                 BitmapImage frame = Meteor[nb_animation_meteor / 4];
 
-                // Parcours de tous les Enemy du Canvas et application au(x) ennemi(s)
+                // Parcours de tous les Ennemi du Canvas et application au(x) ennemi(s)
                 foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
                 {
-                    ennemiImage.Source = frame;
+                    if (ennemiImage.TypeEnnemi == "meteor")
+                    {
+                        ennemiImage.Source = frame;
+                    }
                 }
             }
         }
@@ -297,24 +313,45 @@ namespace GithubWpf
         // Cette méthode crée un ennemi (Image) avec sa vie propre
         private void MakeEnemies()
         {
+            if (MainWindow.Score < scoreMinApparitionAvion)
             {
-                // Créer le contrôle Enemy
-                Ennemi nouveauEnnemi = new Ennemi
+                // Créer un meteor (Ennemi)
+                Ennemi nouveauMeteor = new Ennemi
                 {
                     Height = 128,
                     Width = 64,
                     Stretch = Stretch.UniformToFill,
-                    nbVieMeteor = VieEnnemiInitiale
+                    nbVieEnnemi = VieMeteorInitiale,
+                    TypeEnnemi = "meteor"
                 };
 
                 // On le place aléatoirement en largeur (X)
-                Canvas.SetLeft(nouveauEnnemi, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
+                Canvas.SetLeft(nouveauMeteor, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
 
                 // On le place juste au-dessus de l'écran en hauteur (Y)
-                Canvas.SetTop(nouveauEnnemi, -50);
+                Canvas.SetTop(nouveauMeteor, -50);
 
                 // On l'ajoute au jeu
-                canvasJeu.Children.Add(nouveauEnnemi);
+                canvasJeu.Children.Add(nouveauMeteor);
+            }
+            else if (MainWindow.Score >= scoreMinApparitionAvion)
+            {
+                // Créer un avion (Ennemi)
+                Ennemi nouvelAvion = new Ennemi
+                {
+                    Height = 160,
+                    Width = 160,
+                    Stretch = Stretch.UniformToFill,
+                    Source = Avion,
+                    nbVieEnnemi = VieAvionInitiale,
+                    TypeEnnemi = "avion"
+                };
+                // On le place aléatoirement en largeur (X)
+                Canvas.SetLeft(nouvelAvion, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
+                // On le place juste au-dessus de l'écran en hauteur (Y)
+                Canvas.SetTop(nouvelAvion, -50);
+                // On l'ajoute au jeu
+                canvasJeu.Children.Add(nouvelAvion);
             }
         }
 
