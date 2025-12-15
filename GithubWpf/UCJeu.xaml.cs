@@ -40,7 +40,8 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         //Son
-        private MediaPlayer TirJoueur = new MediaPlayer();
+        private MediaPlayer SonTirJoueur = new MediaPlayer();
+        private MediaPlayer SonMeteorDetruit = new MediaPlayer();
         private MediaPlayer MusiqueFond = new MediaPlayer();
 
         // Images et animations
@@ -138,12 +139,12 @@ namespace GithubWpf
             // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
             if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
             {
-                TirJoueur.Stop();
- 
-                // Formule : Master * Bruitages
-                TirJoueur.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeBruitages;
+                SonTirJoueur.Stop();
 
-                TirJoueur.Play();
+                // Formule : Master * Bruitages
+                SonTirJoueur.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeBruitages;
+
+                SonTirJoueur.Play();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
             }
@@ -243,6 +244,13 @@ namespace GithubWpf
 
                                 if (ennemiImage.nbVieEnnemi <= 0)
                                 {
+                                    // Gestion du son de destruction
+                                    SonMeteorDetruit.Stop();
+                                    // Formule : Master * Bruitages
+                                    SonMeteorDetruit.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeBruitages;
+                                    SonMeteorDetruit.Play();
+
+                                    // L'ennemi est détruit
                                     magasinItemMouv.Add(balle); // Supprime la balle
                                     magasinItemMouv.Add(ennemiImage); // Supprime l'ennemi
                                     MainWindow.Score += 3;
@@ -327,10 +335,8 @@ namespace GithubWpf
 
                 // On le place aléatoirement en largeur (X)
                 Canvas.SetLeft(nouveauMeteor, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
-
                 // On le place juste au-dessus de l'écran en hauteur (Y)
                 Canvas.SetTop(nouveauMeteor, -50);
-
                 // On l'ajoute au jeu
                 canvasJeu.Children.Add(nouveauMeteor);
             }
@@ -418,7 +424,8 @@ namespace GithubWpf
             // MediaPlayer a besoin d'un chemin relatif simple (puisqu'on a mis le fichier en "Contenu")
             try
             {
-                TirJoueur.Open(new Uri("Son/SonTir1.wav", UriKind.Relative));
+                SonTirJoueur.Open(new Uri("Son/SonTir1.wav", UriKind.Relative));
+                SonMeteorDetruit.Open(new Uri("Son/SonMeteorDetruit.wav", UriKind.Relative));
             }
             catch (Exception ex)
             {
