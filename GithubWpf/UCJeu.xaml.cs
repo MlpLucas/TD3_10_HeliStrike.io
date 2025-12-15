@@ -19,6 +19,17 @@ using System.Media;
 
 namespace GithubWpf
 {
+    // Classe simple pour représenter un ennemi avec sa propre vie
+    public class Ennemi : Image
+    {
+        public int nbVieMeteor { get; set; }
+
+        public Ennemi()
+        {
+            Tag = "ennemi";
+        }
+    }
+
     /// <summary>
     /// Logique d'interaction pour UCJeu.xaml
     /// </summary>
@@ -32,6 +43,7 @@ namespace GithubWpf
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
         private BitmapImage[] Meteor = new BitmapImage[5];
+        private BitmapImage Avion;
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
@@ -43,13 +55,14 @@ namespace GithubWpf
         int enemieCounter;
         int limit = 50;
         double scoreLimit = 31.25 ,scoreTemp;
-
+        private const int VieEnnemiInitiale = 3;
 
         Rect playerHitBox;
 
         public UCJeu()
         {
             InitializeComponent();
+            // Charge les images d'animation
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
@@ -78,11 +91,13 @@ namespace GithubWpf
                 {
                     BarreDeVie[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/BarreDeVie/Barre{i}.png"));
                 }
-                // Charger les sprites météorites
+                // Charger les images météorites
                 for (int i = 0; i < Meteor.Length; i++)
                 {
                     Meteor[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/meteor{i}.png"));
                 }
+                // Charger l'image avion
+                Avion = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/avion.png"));
             }
             catch
             {
@@ -156,37 +171,33 @@ namespace GithubWpf
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
             #endif
 
-            // --- Traiter les ennemis (Images) avec nom explicite 'ennemiImage' ---
-            foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
+            // --- Traiter les ennemis (Enemy) ---
+            foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
             {
-                string? tag = ennemiImage.Tag as string;
-                if (tag == "ennemi")
+                // On le fait descendre
+                Canvas.SetTop(ennemiImage, Canvas.GetTop(ennemiImage) + 5);
+
+                // Rectangles de collision
+                Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
+                Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
+
+                // Si l'ennemi touche le joueur
+                if (joueurRect.IntersectsWith(ennemiRect))
                 {
-                    // On le fait descendre
-                    Canvas.SetTop(ennemiImage, Canvas.GetTop(ennemiImage) + 5);
-
-                    // Rectangles de collision
-                    Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
-                    Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
-
-                    // Si l'ennemi touche le joueur
-                    if (joueurRect.IntersectsWith(ennemiRect))
-                    {
-                        magasinItemMouv.Add(ennemiImage); // L'ennemi disparaît
-                        pointVie -= 1; // Aïe !
-                        imgPointVie.Source = BarreDeVie[pointVie];
-                        if (pointVie <= 0)
-                            FinDeJeu();
-                    }
-                    // Si l'ennemi sort de l'écran en bas
-                    else if (Canvas.GetTop(ennemiImage) > canvasJeu.ActualHeight)
-                    {
-                        magasinItemMouv.Add(ennemiImage); // On le supprime pour libérer la mémoire
-                    }
+                    magasinItemMouv.Add(ennemiImage); // L'ennemi disparaît
+                    pointVie -= 1; // Aïe !
+                    imgPointVie.Source = BarreDeVie[pointVie];
+                    if (pointVie <= 0)
+                        FinDeJeu();
+                }
+                // Si l'ennemi sort de l'écran en bas
+                else if (Canvas.GetTop(ennemiImage) > canvasJeu.ActualHeight)
+                {
+                    magasinItemMouv.Add(ennemiImage); // On le supprime pour libérer la mémoire
                 }
             }
 
-            // --- Traiter les balles (Rectangles) et collisions avec ennemis (Images) ---
+            // --- Traiter les balles (Rectangles) et collisions avec ennemis (Enemy) ---
             foreach (Rectangle balle in canvasJeu.Children.OfType<Rectangle>())
             {
                 string? tagBalle = balle.Tag as string;
@@ -205,14 +216,19 @@ namespace GithubWpf
                     }
                     else
                     {
-                        // Vérifie si la balle touche un ennemi (parmi les Images)
-                        foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
+                        // Vérifie si la balle touche un ennemi (parmi les Enemy)
+                        foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
                         {
-                            if ((ennemiImage.Tag as string) == "ennemi")
-                            {
-                                Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
+                            Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
 
-                                if (balleRect.IntersectsWith(ennemiRect))
+                            if (balleRect.IntersectsWith(ennemiRect))
+                            {
+                                // Vie propre à cet ennemi
+                                ennemiImage.nbVieMeteor--;
+                                // Supprime la balle
+                                magasinItemMouv.Add(balle);
+
+                                if (ennemiImage.nbVieMeteor <= 0)
                                 {
                                     magasinItemMouv.Add(balle); // Supprime la balle
                                     magasinItemMouv.Add(ennemiImage); // Supprime l'ennemi
@@ -270,29 +286,25 @@ namespace GithubWpf
             {
                 BitmapImage frame = Meteor[nb_animation_meteor / 4];
 
-                // Parcours de toutes les Image du Canvas et application au(x) ennemi(s)
-                foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
+                // Parcours de tous les Enemy du Canvas et application au(x) ennemi(s)
+                foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
                 {
-                    if ((ennemiImage.Tag as string) == "ennemi")
-                    {
-                        ennemiImage.Source = frame;
-                    }
+                    ennemiImage.Source = frame;
                 }
             }
         }
 
-        // Cette méthode crée un ennemi (carré rouge)
+        // Cette méthode crée un ennemi (Image) avec sa vie propre
         private void MakeEnemies()
         {
             {
-                // Créer le contrôle Image
-                Image nouveauEnnemi = new Image
+                // Créer le contrôle Enemy
+                Ennemi nouveauEnnemi = new Ennemi
                 {
-                    Tag = "ennemi", // Pour le reconnaître
                     Height = 128,
                     Width = 64,
-                    // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
-                    Stretch = Stretch.UniformToFill
+                    Stretch = Stretch.UniformToFill,
+                    nbVieMeteor = VieEnnemiInitiale
                 };
 
                 // On le place aléatoirement en largeur (X)

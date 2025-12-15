@@ -33,6 +33,7 @@
     <None Remove="Images\Bouton\imgRegle.png" />
     <None Remove="Images\Bouton\imgRejouer.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
+    <None Remove="Images\Ennemis\Avion\avion1.png" />
     <None Remove="Images\Ennemis\meteor0.png" />
     <None Remove="Images\Ennemis\meteor1.png" />
     <None Remove="Images\Ennemis\meteor2.png" />
@@ -63,6 +64,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Ennemis\Avion\avion1.png" />
     <Resource Include="Images\Ennemis\meteor0.png" />
     <Resource Include="Images\Ennemis\meteor1.png" />
     <Resource Include="Images\Ennemis\meteor2.png" />
