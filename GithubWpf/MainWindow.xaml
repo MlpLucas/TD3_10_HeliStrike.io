@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GithubWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="800" ResizeMode="NoResize">
+        Title="HeliStrike v1.0" Height="1000" Width="800" ResizeMode="NoResize">
     <Grid>
         <!-- Fond animé -->
         <Canvas x:Name="canvasJeu">
