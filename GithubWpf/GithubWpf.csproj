@@ -62,6 +62,7 @@
     <None Remove="Son\SonDemarrage.mp3" />
     <None Remove="Son\SonDemarrage.wav" />
     <None Remove="Son\SonJeu.wav" />
+    <None Remove="Son\SonMeteorDetruit.wav" />
     <None Remove="Son\SonTir1.wav" />
   </ItemGroup>
 
@@ -118,6 +119,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Son\SonJeu.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Son\SonMeteorDetruit.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Son\SonTir1.wav">
