@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Media;
 
 namespace GithubWpf
 {
@@ -23,15 +24,20 @@ namespace GithubWpf
     /// </summary>
     public partial class UCJeu : UserControl
     {
+        //Son
+        private static SoundPlayer TirJoueur;
+        
+
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
+        private BitmapImage[] Meteor = new BitmapImage[5];
         private DispatcherTimer movementTimer;
         private static bool Agauche, Adroite;
         Random rand = new Random();
         int cadenceTir = 8;
         int tempsRecharge = 0;
         int nb_animation_helico = 0;
-        int score = 0;
+        int nb_animation_meteor = 0;
         int pointVie = 5; // Ne pas changer !!
 
         //Test
@@ -48,7 +54,8 @@ namespace GithubWpf
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
- 
+            InitialisationSonTirHelicoptere();
+
 
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -71,6 +78,11 @@ namespace GithubWpf
                 for (int i = 0; i < BarreDeVie.Length; i++)
                 {
                     BarreDeVie[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/BarreDeVie/Barre{i}.png"));
+                }
+                // Charger les sprites météorites
+                for (int i = 0; i < Meteor.Length; i++)
+                {
+                    Meteor[i] = new BitmapImage(new Uri($"pack://application:,,,/Images/Ennemis/meteor{i}.png"));
                 }
             }
             catch
@@ -99,6 +111,7 @@ namespace GithubWpf
             // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
             if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
             {
+                TirJoueur.Play();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
             }
@@ -139,75 +152,80 @@ namespace GithubWpf
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
             #endif
 
-
-            foreach (var x in canvasJeu.Children.OfType<Rectangle>()) //enlever .OfType<Rectangle>() une fois les images ajoutées
+            // --- Traiter les ennemis (Images) avec nom explicite 'ennemiImage' ---
+            foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
             {
-                //CAS : C'est un ennemi
-                if ((string)x.Tag == "ennemi")
+                string? tag = ennemiImage.Tag as string;
+                if (tag == "ennemi")
                 {
                     // On le fait descendre
-                    Canvas.SetTop(x, Canvas.GetTop(x) + 5);
+                    Canvas.SetTop(ennemiImage, Canvas.GetTop(ennemiImage) + 5);
 
                     // Rectangles de collision
-                    Rect ennemiRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
                     Rect joueurRect = new Rect(Canvas.GetLeft(imgHelico), Canvas.GetTop(imgHelico), imgHelico.Width, imgHelico.Height);
 
                     // Si l'ennemi touche le joueur
                     if (joueurRect.IntersectsWith(ennemiRect))
                     {
-                        magasinItemMouv.Add(x); // L'ennemi disparaît
+                        magasinItemMouv.Add(ennemiImage); // L'ennemi disparaît
                         pointVie -= 1; // Aïe !
                         imgPointVie.Source = BarreDeVie[pointVie];
                         if (pointVie <= 0)
                             FinDeJeu();
-
                     }
                     // Si l'ennemi sort de l'écran en bas
-                    else if (Canvas.GetTop(x) > canvasJeu.ActualHeight)
+                    else if (Canvas.GetTop(ennemiImage) > canvasJeu.ActualHeight)
                     {
-                        magasinItemMouv.Add(x); // On le supprime pour libérer la mémoire
+                        magasinItemMouv.Add(ennemiImage); // On le supprime pour libérer la mémoire
                     }
                 }
+            }
 
-                //C'est une balle (tir)
-                if ((string)x.Tag == "balle")
+            // --- Traiter les balles (Rectangles) et collisions avec ennemis (Images) ---
+            foreach (Rectangle balle in canvasJeu.Children.OfType<Rectangle>())
+            {
+                string? tagBalle = balle.Tag as string;
+                if (tagBalle == "balle")
                 {
                     // La balle monte
-                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+                    Canvas.SetTop(balle, Canvas.GetTop(balle) - 20);
 
                     // Rectangles de collision
-                    Rect balleRect = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    Rect balleRect = new Rect(Canvas.GetLeft(balle), Canvas.GetTop(balle), balle.Width, balle.Height);
 
                     // Si la balle sort de l'écran en haut
-                    if (Canvas.GetTop(x) < -20)
+                    if (Canvas.GetTop(balle) < -20)
                     {
-                        magasinItemMouv.Add(x);
+                        magasinItemMouv.Add(balle);
                     }
                     else
                     {
-                        // Vérifie si la balle touche un ennemi
-                        foreach (var y in canvasJeu.Children.OfType<Rectangle>())
+                        // Vérifie si la balle touche un ennemi (parmi les Images)
+                        foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
                         {
-                            if ((string)y.Tag == "ennemi")
+                            if ((ennemiImage.Tag as string) == "ennemi")
                             {
-                                Rect ennemiRect = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+                                Rect ennemiRect = new Rect(Canvas.GetLeft(ennemiImage), Canvas.GetTop(ennemiImage), ennemiImage.Width, ennemiImage.Height);
 
                                 if (balleRect.IntersectsWith(ennemiRect))
                                 {
-                                    magasinItemMouv.Add(x); // Supprime la balle
-                                    magasinItemMouv.Add(y); // Supprime l'ennemi
-                                    score+=3;
+                                    magasinItemMouv.Add(balle); // Supprime la balle
+                                    magasinItemMouv.Add(ennemiImage); // Supprime l'ennemi
+                                    MainWindow.Score += 3;
                                     AffichageScore();
+                                    break; // la balle est détruite, sortir de la boucle ennemis
                                 }
                             }
                         }
                     }
                 }
             }
+
             scoreTemp--;
             if (scoreTemp <0)
             {
-                score++;
+                MainWindow.Score++;
                 scoreTemp = scoreLimit;
                 AffichageScore();
             }
@@ -219,12 +237,13 @@ namespace GithubWpf
                 canvasJeu.Children.Remove(i);
             }
             AnimationHelico();
+            AnimationMeteor();
             imgPointVie.Source = BarreDeVie[pointVie];
         }
         
         public void AffichageScore()
         {
-            labelScore.Content = score.ToString();
+            labelScore.Content = MainWindow.Score.ToString();
         }
 
         private void AnimationHelico() //Animation des hélices
@@ -236,26 +255,51 @@ namespace GithubWpf
                 imgHelico.Source = Helico1[nb_animation_helico / 4];
         }
 
+        private void AnimationMeteor() //Animation des hélices
+        {
+            nb_animation_meteor++;
+            if (nb_animation_meteor == Meteor.Length * 4)
+                nb_animation_meteor = 0;
+
+            // Ne changer d'image que tous les 4 ticks (comme pour l'hélico)
+            if (nb_animation_meteor % 4 == 0)
+            {
+                BitmapImage frame = Meteor[nb_animation_meteor / 4];
+
+                // Parcours de toutes les Image du Canvas et application au(x) ennemi(s)
+                foreach (Image ennemiImage in canvasJeu.Children.OfType<Image>())
+                {
+                    if ((ennemiImage.Tag as string) == "ennemi")
+                    {
+                        ennemiImage.Source = frame;
+                    }
+                }
+            }
+        }
+
         // Cette méthode crée un ennemi (carré rouge)
         private void MakeEnemies()
         {
-            Rectangle nouveauEnnemi = new Rectangle
             {
-                Tag = "ennemi", // Pour le reconnaître plus tard
-                Height = 40,
-                Width = 40,
-                Fill = Brushes.Red, // A REMPLACER PAR UNE IMAGE PLUS TARD
-                Stroke = Brushes.Black
-            };
+                // Créer le contrôle Image
+                Image nouveauEnnemi = new Image
+                {
+                    Tag = "ennemi", // Pour le reconnaître
+                    Height = 128,
+                    Width = 64,
+                    // Le mode Stretch peut aider à gérer l'ajustement si l'image n'est pas exactement 40x40
+                    Stretch = Stretch.UniformToFill
+                };
 
-            // On le place aléatoirement en largeur (X)
-            Canvas.SetLeft(nouveauEnnemi, rand.Next(0, (int)(canvasJeu.ActualWidth - 40)));
+                // On le place aléatoirement en largeur (X)
+                Canvas.SetLeft(nouveauEnnemi, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
 
-            // On le place juste au-dessus de l'écran en hauteur (Y)
-            Canvas.SetTop(nouveauEnnemi, -50);
+                // On le place juste au-dessus de l'écran en hauteur (Y)
+                Canvas.SetTop(nouveauEnnemi, -50);
 
-            // On l'ajoute au jeu
-            canvasJeu.Children.Add(nouveauEnnemi);
+                // On l'ajoute au jeu
+                canvasJeu.Children.Add(nouveauEnnemi);
+            }
         }
 
         //GESTION DES TOUCHES
@@ -316,5 +360,9 @@ namespace GithubWpf
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
 
+        private void InitialisationSonTirHelicoptere() //FONCTIONNE PAS
+        {
+            TirJoueur = new SoundPlayer(Application.GetResourceStream(new Uri("pack://application:,,,/Son/SonTir1.wav")).Stream);
+        }
     }
 }

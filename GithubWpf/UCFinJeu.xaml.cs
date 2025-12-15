@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace GithubWpf
 {
@@ -23,6 +24,24 @@ namespace GithubWpf
         public UCFinJeu()
         {
             InitializeComponent();
+            AffichageScore();
+            AffichageMeilleurScore();
+        }
+
+        public void AffichageScore()
+        {
+            labelScore.Content = MainWindow.Score.ToString();
+        }
+
+        private void AffichageMeilleurScore()
+        {
+            if (MainWindow.Score > MainWindow.MeilleurScore)
+            {
+                MainWindow.MeilleurScore = MainWindow.Score;
+                labelAfficheMeilleurScore.Content = "Nouveau meilleur score !";
+            }
+            labelMeilleurScore.Content = MainWindow.MeilleurScore.ToString();
+            MainWindow.Score = 0; // Réinitialiser le score pour la prochaine partie
         }
     }
 }

@@ -33,7 +33,11 @@
     <None Remove="Images\Bouton\imgRegle.png" />
     <None Remove="Images\Bouton\imgRejouer.png" />
     <None Remove="Images\Bouton\imgRetour.png" />
-    <None Remove="Images\FonFinJeu.png" />
+    <None Remove="Images\Ennemis\meteor0.png" />
+    <None Remove="Images\Ennemis\meteor1.png" />
+    <None Remove="Images\Ennemis\meteor2.png" />
+    <None Remove="Images\Ennemis\meteor3.png" />
+    <None Remove="Images\Ennemis\meteor4.png" />
     <None Remove="Images\Helicoptere\helico1-1.png" />
     <None Remove="Images\Helicoptere\helico1-2.png" />
     <None Remove="Images\Helicoptere\helico1-3.png" />
@@ -41,12 +45,20 @@
     <None Remove="Images\Helicoptere\helico1-5.png" />
     <None Remove="Images\Helicoptere\helico1-6.png" />
     <None Remove="Images\Helicoptere\helico1-profile.png" />
+    <None Remove="Images\imgPerdu.png" />
+    <None Remove="Images\imgReglages.png" />
     <None Remove="Images\Logo1.png" />
     <None Remove="Images\LogoRegle.png" />
+    <None Remove="Son\SonTir1.wav" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\HeliStrike.ico" />
+    <Resource Include="Images\Ennemis\meteor0.png" />
+    <Resource Include="Images\Ennemis\meteor1.png" />
+    <Resource Include="Images\Ennemis\meteor2.png" />
+    <Resource Include="Images\Ennemis\meteor3.png" />
+    <Resource Include="Images\Ennemis\meteor4.png" />
+    <Resource Include="Images\HeliStrike.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,7 +76,7 @@
     <Resource Include="Images\Bouton\imgQuitter.png" />
     <Resource Include="Images\Bouton\imgReglages.png" />
     <Resource Include="Images\Bouton\imgRejouer.png" />
-    <Resource Include="Images\FonFinJeu.png" />
+    <Resource Include="Images\FondFinJeu.png" />
     <Resource Include="Images\Helicoptere\helico1-1.png" />
     <Resource Include="Images\Helicoptere\helico1-2.png" />
     <Resource Include="Images\Helicoptere\helico1-3.png" />
@@ -75,8 +87,11 @@
     <Resource Include="Images\imgCadreRegles.png" />
     <Resource Include="Images\Bouton\imgRegle.png" />
     <Resource Include="Images\Bouton\imgRetour.png" />
+    <Resource Include="Images\imgPerdu.png" />
+    <Resource Include="Images\imgReglages.png" />
     <Resource Include="Images\Logo1.png" />
     <Resource Include="Images\LogoRegle.png" />
+    <Resource Include="Son\SonTir1.wav" />
   </ItemGroup>
 
 </Project>

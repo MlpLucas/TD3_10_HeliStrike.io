@@ -43,6 +43,11 @@ namespace GithubWpf
 
         public static bool FinJeu { get; set; } = false;
 
+        // Variable Score et Meilleur Score
+        public static int Score { get; set; } = 0;
+        public static int MeilleurScore { get; set; } = 0;
+
+
         //Animation background
         private static int pasFond = 4;
         private void Jeu(object? sender, EventArgs e)
@@ -51,10 +56,10 @@ namespace GithubWpf
             Deplace(imgFond2, pasFond);
 
 
+            // Affichage de l'écran de fin de jeu
             if (MainWindow.FinJeu == true)
             {
                 AfficheFinJeu();
-                Console.WriteLine("Le jeu est terminé. mainWindow");
             }
         }
 
@@ -116,8 +121,8 @@ namespace GithubWpf
             MainWindow.FinJeu = false;
             UCFinJeu uc = new UCFinJeu();
             ZoneJeu.Content = uc;
-            uc.butQuitter.Click += AfficheDemarrage;
             uc.butRejouer.Click += AfficheJeu;
+            uc.butQuitter.Click += AfficheDemarrage; 
         }
     }
 }
