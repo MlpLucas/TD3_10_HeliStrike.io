@@ -29,5 +29,9 @@ namespace GithubWpf
         {
             MainWindow.Perso = "1";
         }
+        private void rbHelico2_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.Perso = "2";
+        }
     }
 }

@@ -7,19 +7,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
-        <RadioButton x:Name="rbHelico1" Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="215,0,0,0" >
-            <RadioButton.Content>
-                <Image Source="/Images/Helicoptere/helico1-1.png" Width="150" Height="150"/>
-            </RadioButton.Content>
-        </RadioButton>
+            <Label Content="CHOISIS TON HÉLICO" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" FontSize="30" FontWeight="Bold" Foreground="White"/>
 
+            <RadioButton x:Name="rbHelico1" GroupName="Helicos" 
+                     Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="215,0,0,0" 
+                     Click="rbHelico1_Click">
+                <RadioButton.Content>
+                    <Image Source="/Images/Helicoptere/helico1-profile.png" Width="150" Height="150"/>
+                </RadioButton.Content>
+            </RadioButton>
 
+            <RadioButton x:Name="rbHelico2" GroupName="Helicos" 
+                     Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="380,0,0,0" 
+                     Click="rbHelico2_Click">
+                <RadioButton.Content>
+                    <Image Source="/Images/Helicoptere/helico2-profile.png" Width="150" Height="150"/>
+                </RadioButton.Content>
+            </RadioButton>
 
-
-        <Button x:Name="butRetourChoixPerso" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
-            <Button.Background>
-                <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
-            </Button.Background>
-        </Button>
-    </Grid>
+            <Button x:Name="butRetourChoixPerso" Content="" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="220" Height="80">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
+                </Button.Background>
+            </Button>
+        </Grid>
 </UserControl>
