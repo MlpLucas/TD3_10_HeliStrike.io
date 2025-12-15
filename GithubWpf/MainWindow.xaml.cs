@@ -36,6 +36,11 @@ namespace GithubWpf
             // lancement du timer
             minuterie.Start();
         }
+        // Son
+        public static double VolumeGeneral { get; set; } = 0.5;
+        public static double VolumeMusique { get; set; } = 0.5;
+        public static double VolumeBruitages { get; set; } = 0.5;
+
 
         //Choix du personnage + vitesse hélico
         public static string Perso { get; set; } = "1";
@@ -112,8 +117,6 @@ namespace GithubWpf
         }
         private void AfficheJeu(object sender, RoutedEventArgs e)
         {
-            MainWindow.Score = 0;  // On remet le score à 0
-           
             // On lance le jeu
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;

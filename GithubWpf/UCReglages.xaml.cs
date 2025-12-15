@@ -23,6 +23,16 @@ namespace GithubWpf
         public UCReglages()
         {
             InitializeComponent();
+            //Positionne les sliders sur les valeurs actuelles
+            sliderMaster.Value = MainWindow.VolumeGeneral * 10;
+            sliderMusic.Value = MainWindow.VolumeMusique * 10;
+            sliderSFX.Value = MainWindow.VolumeBruitages * 10;
+
+            //Regarde les changements
+            sliderMaster.ValueChanged += (s, e) => MainWindow.VolumeGeneral = sliderMaster.Value / 10;
+            sliderMusic.ValueChanged += (s, e) => MainWindow.VolumeMusique = sliderMusic.Value / 10;
+            sliderSFX.ValueChanged += (s, e) => MainWindow.VolumeBruitages = sliderSFX.Value / 10;
         }
     }
+    
 }

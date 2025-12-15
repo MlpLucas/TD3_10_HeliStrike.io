@@ -25,8 +25,9 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         //Son
-        private static SoundPlayer TirJoueur;
-        
+        private MediaPlayer TirJoueur = new MediaPlayer();
+        private MediaPlayer MusiqueFond = new MediaPlayer();
+
 
         private BitmapImage[] Helico1 = new BitmapImage[6];
         private BitmapImage[] BarreDeVie = new BitmapImage[6];
@@ -39,8 +40,6 @@ namespace GithubWpf
         int nb_animation_helico = 0;
         int nb_animation_meteor = 0;
         int pointVie = 5; // Ne pas changer !!
-
-        //Test
         int enemieCounter;
         int limit = 50;
         double scoreLimit = 31.25 ,scoreTemp;
@@ -54,9 +53,9 @@ namespace GithubWpf
             ChargeImageAnimation();
             // démarrage de la logique d'animation/déplacement
             InitTimer();
+            //Lancement des sons
             InitialisationSonTirHelicoptere();
-
-
+            LancerMusique();
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
             this.Unloaded += UserControl_Unloaded;
@@ -111,6 +110,11 @@ namespace GithubWpf
             // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
             if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
             {
+                TirJoueur.Stop();
+ 
+                // Formule : Master * Bruitages
+                TirJoueur.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeBruitages;
+
                 TirJoueur.Play();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
@@ -360,9 +364,27 @@ namespace GithubWpf
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
 
-        private void InitialisationSonTirHelicoptere() //FONCTIONNE PAS
+        private void InitialisationSonTirHelicoptere()
         {
-            TirJoueur = new SoundPlayer(Application.GetResourceStream(new Uri("pack://application:,,,/Son/SonTir1.wav")).Stream);
+            // MediaPlayer a besoin d'un chemin relatif simple (puisqu'on a mis le fichier en "Contenu")
+            try
+            {
+                TirJoueur.Open(new Uri("Son/SonTir1.wav", UriKind.Relative));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur chargement son : " + ex.Message);
+            }
+        }
+        private void LancerMusique()
+        {
+            MusiqueFond.Open(new Uri("Son/SonJeu.wav", UriKind.Relative));
+
+            // Formule : Master * Musique
+            MusiqueFond.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+
+            MusiqueFond.MediaEnded += (s, e) => { MusiqueFond.Position = TimeSpan.Zero; MusiqueFond.Play(); }; // Boucle
+            MusiqueFond.Play();
         }
     }
 }
