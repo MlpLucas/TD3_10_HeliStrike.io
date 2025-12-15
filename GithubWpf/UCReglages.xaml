@@ -9,15 +9,15 @@
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
 
-            <TextBlock Text="RÉGLAGES AUDIO" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+            <TextBlock Text="AUDIO" FontFamily="/Font/#5x7 mt pixel" Foreground="White" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
 
-            <Label Content="Volume Général (Master)" Foreground="White" FontSize="16"/>
+            <Label Content="Volume Général (Master)" FontFamily="/Font/#5x7 mt pixel" Foreground="White" FontSize="16"/>
             <Slider x:Name="sliderMaster" Minimum="0" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,5,0,20"/>
 
-            <Label Content="Musique" Foreground="White" FontSize="16"/>
+            <Label Content="Musique" FontFamily="/Font/#5x7 mt pixel" Foreground="White" FontSize="16"/>
             <Slider x:Name="sliderMusic" Minimum="0" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,5,0,20"/>
 
-            <Label Content="Effets Sonores (Tirs, Explosions)" Foreground="White" FontSize="16"/>
+            <Label Content="Effets Sonores (Tirs / Explosions)" FontFamily="/Font/#5x7 mt pixel" Foreground="White" FontSize="16"/>
             <Slider x:Name="sliderSFX" Minimum="0" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Margin="0,5,0,30"/>
 
         </StackPanel>
@@ -27,5 +27,7 @@
                 <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
             </Button.Background>
         </Button>
+        <Image x:Name="imgReglages" HorizontalAlignment="Center" Source="/Images/imgReglages.png" Margin="0,82,0,0" VerticalAlignment="Top" Width="600"/>
+
     </Grid>
 </UserControl>

@@ -71,6 +71,9 @@ namespace GithubWpf
         // Score minimum pour apparition
         private const int scoreMinApparitionAvion = 50; // A CHANGER PLUS TARD
 
+        // Booleen affiche label nouveaux ennemis
+        private bool alerteAfficheLabelNouveauEnnemis = false;
+
         Rect playerHitBox;
 
         public UCJeu()
@@ -81,7 +84,7 @@ namespace GithubWpf
             // démarrage de la logique d'animation/déplacement
             InitTimer();
             //Lancement des sons
-            InitialisationSonTirHelicoptere();
+            InitialisationSon();
             LancerMusique();
             // garantir que Loaded/Unloaded sont pris en compte
             this.Loaded += UserControl_Loaded;
@@ -129,7 +132,10 @@ namespace GithubWpf
         }
 
         private void MovementTimer_Tick(object? sender, EventArgs e)
-        { 
+        {
+            // Affichage label nouveaux ennemis
+            AffichageNouveauxEnnemis();
+
             //GESTION TIR
             if (tempsRecharge > 0)
             {
@@ -298,6 +304,17 @@ namespace GithubWpf
         public void AffichageScore()
         {
             labelScore.Content = MainWindow.Score.ToString();
+        }
+
+        public async void AffichageNouveauxEnnemis()
+        {
+            if (MainWindow.Score >= scoreMinApparitionAvion && !alerteAfficheLabelNouveauEnnemis)
+            {
+                labelNouveauxEnnemis.Visibility = Visibility.Visible;
+                await Task.Delay(3000); // 3 secondes
+                labelNouveauxEnnemis.Visibility = Visibility.Collapsed;
+                alerteAfficheLabelNouveauEnnemis = true;
+            }
         }
 
         private void AnimationHelico() //Animation des hélices
