@@ -112,8 +112,12 @@ namespace GithubWpf
         }
         private void AfficheJeu(object sender, RoutedEventArgs e)
         {
+            MainWindow.Score = 0;  // On remet le score à 0
+           
+            // On lance le jeu
             UCJeu uc = new UCJeu();
             ZoneJeu.Content = uc;
+            uc.Focus();
         }
 
         private void AfficheFinJeu()

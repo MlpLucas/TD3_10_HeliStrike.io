@@ -9,6 +9,7 @@
     
 
     <Grid>
+        <Image Margin="0,0,0,0" Source="/Images/FondFinJeu.png" Stretch="Fill"/>
         <Label x:Name="labelScore" Content="SCORE" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Label x:Name="labelMeilleurScore" Content="MEILLEUR_SCORE" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,410,0,0" VerticalAlignment="Top" FontSize="36"/>
         <Label x:Name="labelAfficheScore" Content="Votre score" FontFamily="/Font/#5x7 mt pixel" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" FontSize="18"/>
@@ -26,6 +27,6 @@
                 <ImageBrush ImageSource="/Images/Bouton/imgRejouer.png"/>
             </Button.Background>
         </Button>
-        <Image Margin="0,0,0,0" Source="/Images/FondFinJeu.png" Stretch="Fill"/>
+        
     </Grid>
 </UserControl>
