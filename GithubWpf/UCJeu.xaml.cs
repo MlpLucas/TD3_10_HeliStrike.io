@@ -54,13 +54,19 @@ namespace GithubWpf
         private DispatcherTimer movementTimer;
         // Controle
         private static bool Agauche, Adroite;
-
+        // Tir Helico
         Random rand = new Random();
         int cadenceTir = 8;
         int tempsRecharge = 0;
+        int tailleChargeur = 10; 
+        int ballesRestantes = 10;  
+        int tempsRechargementArme = 0;
+        int dureePauseRechargement = 40;
+
         int nb_animation_helico = 0;
         int nb_animation_meteor = 0;
         int pointVie = 5; // Ne pas changer !!
+        // Ennemi
         int enemieCounter;
         int limit = 50;
         double scoreLimit = 31.25 ,scoreTemp;
@@ -73,8 +79,6 @@ namespace GithubWpf
 
         // Booleen affiche label nouveaux ennemis
         private bool alerteAfficheLabelNouveauEnnemis = false;
-
-        Rect playerHitBox;
 
         public UCJeu()
         {
@@ -136,23 +140,41 @@ namespace GithubWpf
             // Affichage label nouveaux ennemis
             AffichageNouveauxEnnemis();
 
+            // GESTION DU RECHARGEMENT LONG (Le Chargeur)
+            if (tempsRechargementArme > 0)
+            {
+                tempsRechargementArme--; // On diminue le temps de pause
+                                         
+            }
+
             //GESTION TIR
             if (tempsRecharge > 0)
             {
                 tempsRecharge--;
             }
 
-            // Si on appuie sur ESPACE ET que l'arme est prête (tempsRecharge == 0)
-            if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0)
+            // Si on appuie sur ESPACE 
+            // ET que l'arme est prête (cadence de tir)
+            // ET qu'on n'est pas en train de recharger le chargeur (tempsRechargementArme == 0)
+            if (Keyboard.IsKeyDown(Key.Space) && tempsRecharge <= 0 && tempsRechargementArme <= 0)
             {
                 SonTirJoueur.Stop();
-
+                SonTirJoueur.Position = TimeSpan.Zero;
                 // Formule : Master * Bruitages
                 SonTirJoueur.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeBruitages;
 
                 SonTirJoueur.Play();
                 CreerBalle();           // On tire !
                 tempsRecharge = cadenceTir; // On réinitialise le délai (on doit attendre 10 tours)
+
+                ballesRestantes--;
+                if (ballesRestantes <= 0)
+                {
+                    tempsRechargementArme = dureePauseRechargement; // On bloque le tir pour 100 ticks
+                    ballesRestantes = tailleChargeur; // On remet les balles pour la prochaine fois
+
+                }
+
             }
 
             //GESTION DU JOUEUR
