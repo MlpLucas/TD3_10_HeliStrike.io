@@ -1,13 +1,6 @@
-﻿using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace GithubWpf
@@ -17,8 +10,29 @@ namespace GithubWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region 1. VARIABLES GLOBALES (STATIC)
+
+        // --- SON ---
+        public static double VolumeGeneral { get; set; } = 0.5;
+        public static double VolumeMusique { get; set; } = 0.5;
+        public static double VolumeBruitages { get; set; } = 0.5;
+
+        // --- PARAMETRES JOUEUR ---
+        public static string Perso { get; set; } = "1";
+        public static int PasHelico { get; set; } = 8;
+
+        // --- ETAT DU JEU ---
+        public static bool FinJeu { get; set; } = false;
+        public static int Score { get; set; } = 0;
+        public static int MeilleurScore { get; set; } = 0;
+
+        #endregion
+
+        #region 2. INITIALISATION ET TIMER
+
         private static DispatcherTimer minuterie;
-   
+        private static int pasFond = 4;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,39 +43,20 @@ namespace GithubWpf
         private void InitializeTimer()
         {
             minuterie = new DispatcherTimer();
-            // configure l'intervalle du Timer
+            // Environ 60 FPS (1000ms / 60 = 16.6ms)
             minuterie.Interval = TimeSpan.FromMilliseconds(16);
-            // associe l’appel de la méthode Jeu à la fin de la minuterie
-            minuterie.Tick += Jeu;
-            // lancement du timer
+            minuterie.Tick += BouclePrincipale_Tick;
             minuterie.Start();
         }
-        // Son
-        public static double VolumeGeneral { get; set; } = 0.5;
-        public static double VolumeMusique { get; set; } = 0.5;
-        public static double VolumeBruitages { get; set; } = 0.5;
 
-
-        //Choix du personnage + vitesse hélico
-        public static string Perso { get; set; } = "1";
-        public static int PasHelico { get; set; } = 8;
-
-        public static bool FinJeu { get; set; } = false;
-
-        // Variable Score et Meilleur Score
-        public static int Score { get; set; } = 0;
-        public static int MeilleurScore { get; set; } = 0;
-
-
-        //Animation background
-        private static int pasFond = 4;
-        private void Jeu(object? sender, EventArgs e)
+        // C'est la méthode "Jeu" renommé pour plus de clarté (Tick du Timer)
+        private void BouclePrincipale_Tick(object? sender, EventArgs e)
         {
+            // Animation du fond (Parallax)
             Deplace(imgFond1, pasFond);
             Deplace(imgFond2, pasFond);
 
-
-            // Affichage de l'écran de fin de jeu
+            // Vérification Fin de Jeu
             if (MainWindow.FinJeu == true)
             {
                 AfficheFinJeu();
@@ -75,61 +70,73 @@ namespace GithubWpf
                 Canvas.SetTop(image, -image.ActualHeight + pas);
         }
 
-        //Boutton Navigation entre les UserControl
+        #endregion
+
+        #region 3. NAVIGATION (GESTION DES ECRANS)
+
+        // --- ECRAN DEMARRAGE ---
         private void AfficheDemarrage()
         {
             UCDemarrage uc = new UCDemarrage();
             ZoneJeu.Content = uc;
 
+            // Abonnement aux boutons du menu
             uc.butJouer.Click += AfficheJeu;
             uc.butProfil.Click += AfficheChoixPerso;
             uc.butReglages.Click += AfficheReglages;
             uc.butReglesJeu.Click += AfficheReglesJeu;
         }
 
+        // Surcharge pour le bouton retour (Redirige vers la méthode principale)
         private void AfficheDemarrage(object sender, RoutedEventArgs e)
         {
-            UCDemarrage uc = new UCDemarrage();
+            AfficheDemarrage();
+        }
+
+        // --- ECRAN JEU ---
+        private void AfficheJeu(object sender, RoutedEventArgs e)
+        {
+            UCJeu uc = new UCJeu();
+            ZoneJeu.Content = uc;
+            uc.Focus(); // Important pour capter le clavier
+        }
+
+        // --- ECRAN FIN DE JEU ---
+        private void AfficheFinJeu()
+        {
+            MainWindow.FinJeu = false; // On reset l'état
+
+            UCFinJeu uc = new UCFinJeu();
             ZoneJeu.Content = uc;
 
-            uc.butJouer.Click += AfficheJeu;
-            uc.butProfil.Click += AfficheChoixPerso;
-            uc.butReglages.Click += AfficheReglages;
-            uc.butReglesJeu.Click += AfficheReglesJeu;
+            uc.butRejouer.Click += AfficheJeu;
+            uc.butQuitter.Click += AfficheDemarrage;
         }
+
+        // --- ECRAN CHOIX PERSO ---
         private void AfficheChoixPerso(object sender, RoutedEventArgs e)
         {
             UCChoixPerso uc = new UCChoixPerso();
             ZoneJeu.Content = uc;
             uc.butRetourChoixPerso.Click += AfficheDemarrage;
         }
+
+        // --- ECRAN REGLAGES ---
         private void AfficheReglages(object sender, RoutedEventArgs e)
         {
             UCReglages uc = new UCReglages();
             ZoneJeu.Content = uc;
             uc.butRetourReglages.Click += AfficheDemarrage;
         }
+
+        // --- ECRAN REGLES ---
         private void AfficheReglesJeu(object sender, RoutedEventArgs e)
         {
             UCReglesJeu uc = new UCReglesJeu();
             ZoneJeu.Content = uc;
             uc.butRetourReglesJeu.Click += AfficheDemarrage;
         }
-        private void AfficheJeu(object sender, RoutedEventArgs e)
-        {
-            // On lance le jeu
-            UCJeu uc = new UCJeu();
-            ZoneJeu.Content = uc;
-            uc.Focus();
-        }
 
-        private void AfficheFinJeu()
-        {
-            MainWindow.FinJeu = false;
-            UCFinJeu uc = new UCFinJeu();
-            ZoneJeu.Content = uc;
-            uc.butRejouer.Click += AfficheJeu;
-            uc.butQuitter.Click += AfficheDemarrage; 
-        }
+        #endregion
     }
 }

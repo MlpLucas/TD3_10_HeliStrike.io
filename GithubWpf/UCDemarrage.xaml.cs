@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO; // Nécessaire pour Path et File
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GithubWpf
 {
@@ -20,30 +11,62 @@ namespace GithubWpf
     /// </summary>
     public partial class UCDemarrage : UserControl
     {
+        #region 1. VARIABLES
+
         private MediaPlayer MusiqueFondDemarrage = new MediaPlayer();
+
+        #endregion
+
+        #region 2. INITIALISATION ET FERMETURE
+
         public UCDemarrage()
         {
             InitializeComponent();
+
+            // Gestion de la fermeture (pour couper le son)
             this.Unloaded += UCDemarrage_Unloaded;
+
+            // Lancement de la musique
             LancerMusique();
-
         }
-        //Gestion du son de fond dans le demarrage
-        private void LancerMusique()
-        {
-            MusiqueFondDemarrage.Open(new Uri("Son/SonDemarrage.wav", UriKind.Relative));
 
-            // Formule : Master * Musique
-            MusiqueFondDemarrage.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
-
-            MusiqueFondDemarrage.MediaEnded += (s, e) => { MusiqueFondDemarrage.Position = TimeSpan.Zero; MusiqueFondDemarrage.Play(); }; // Boucle
-            MusiqueFondDemarrage.Play();
-        }
         private void UCDemarrage_Unloaded(object sender, RoutedEventArgs e)
         {
             MusiqueFondDemarrage.Stop();
             MusiqueFondDemarrage.Close();
         }
-    }
 
+        #endregion
+
+        #region 3. GESTION AUDIO
+
+        private void LancerMusique()
+        {
+            try
+            {
+                // Utilisation de chemin absolu pour la sécurité (comme dans les autres fichiers)
+                string chemin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Son", "SonDemarrage.wav");
+
+                if (File.Exists(chemin))
+                {
+                    MusiqueFondDemarrage.Open(new Uri(chemin));
+
+                    // Formule : Master * Musique
+                    MusiqueFondDemarrage.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+
+                    // Boucle de musique
+                    MusiqueFondDemarrage.MediaEnded += (s, e) =>
+                    {
+                        MusiqueFondDemarrage.Position = TimeSpan.Zero;
+                        MusiqueFondDemarrage.Play();
+                    };
+
+                    MusiqueFondDemarrage.Play();
+                }
+            }
+            catch { /* Ignorer les erreurs de son */ }
+        }
+
+        #endregion
+    }
 }

@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace GithubWpf
 {
@@ -20,19 +7,25 @@ namespace GithubWpf
     /// </summary>
     public partial class UCReglages : UserControl
     {
+        #region INITIALISATION
+
         public UCReglages()
         {
             InitializeComponent();
-            //Positionne les sliders sur les valeurs actuelles
+
+            // 1. Positionne les sliders sur les valeurs actuelles (Sauvegardées dans MainWindow)
+            // On multiplie par 10 car tes sliders vont de 0 à 10, mais le volume va de 0.0 à 1.0
             sliderMaster.Value = MainWindow.VolumeGeneral * 10;
             sliderMusic.Value = MainWindow.VolumeMusique * 10;
             sliderSFX.Value = MainWindow.VolumeBruitages * 10;
 
-            //Regarde les changements
+            // 2. Détecte les changements (Events)
+            // On utilise des "Lambda expressions" (=>) pour faire court
             sliderMaster.ValueChanged += (s, e) => MainWindow.VolumeGeneral = sliderMaster.Value / 10;
             sliderMusic.ValueChanged += (s, e) => MainWindow.VolumeMusique = sliderMusic.Value / 10;
             sliderSFX.ValueChanged += (s, e) => MainWindow.VolumeBruitages = sliderSFX.Value / 10;
         }
+
+        #endregion
     }
-    
 }

@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO; // Nécessaire pour Path et File
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace GithubWpf
 {
@@ -21,15 +11,36 @@ namespace GithubWpf
     /// </summary>
     public partial class UCFinJeu : UserControl
     {
+        #region 1. VARIABLES
+
         private readonly MediaPlayer MusiqueFondFinJeu = new();
+
+        #endregion
+
+        #region 2. INITIALISATION ET FERMETURE
+
         public UCFinJeu()
         {
             InitializeComponent();
+
+            // Lancement des affichages et du son
             AffichageScore();
             AffichageMeilleurScore();
             LancerMusique();
+
+            // Evénement de fermeture pour couper le son
             this.Unloaded += UCFinJeu_Unloaded;
         }
+
+        private void UCFinJeu_Unloaded(object sender, RoutedEventArgs e)
+        {
+            MusiqueFondFinJeu.Stop();  // On arrête
+            MusiqueFondFinJeu.Close(); // On nettoie la mémoire
+        }
+
+        #endregion
+
+        #region 3. GESTION DU SCORE
 
         public void AffichageScore()
         {
@@ -44,22 +55,42 @@ namespace GithubWpf
                 labelAfficheMeilleurScore.Content = "Nouveau meilleur score !";
             }
             labelMeilleurScore.Content = MainWindow.MeilleurScore.ToString();
-            MainWindow.Score = 0; // Réinitialiser le score pour la prochaine partie
+
+            // Réinitialiser le score pour la prochaine partie
+            MainWindow.Score = 0;
         }
+
+        #endregion
+
+        #region 4. GESTION AUDIO
+
         private void LancerMusique()
         {
-            MusiqueFondFinJeu.Open(new Uri("Son/SonFinJeu.wav", UriKind.Relative));
+            try
+            {
+                // Utilisation de chemin absolu pour la sécurité (comme dans UCJeu)
+                string chemin = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Son", "SonFinJeu.wav");
 
-            // Formule : Master * Musique
-            MusiqueFondFinJeu.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+                if (System.IO.File.Exists(chemin))
+                {
+                    MusiqueFondFinJeu.Open(new Uri(chemin));
 
-            MusiqueFondFinJeu.MediaEnded += (s, e) => { MusiqueFondFinJeu.Position = TimeSpan.Zero; MusiqueFondFinJeu.Play(); }; // Boucle
-            MusiqueFondFinJeu.Play();
+                    // Formule : Master * Musique
+                    MusiqueFondFinJeu.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+
+                    // Boucle de musique
+                    MusiqueFondFinJeu.MediaEnded += (s, e) =>
+                    {
+                        MusiqueFondFinJeu.Position = TimeSpan.Zero;
+                        MusiqueFondFinJeu.Play();
+                    };
+
+                    MusiqueFondFinJeu.Play();
+                }
+            }
+            catch { /* Ignorer si erreur son */ }
         }
-        private void UCFinJeu_Unloaded(object sender, RoutedEventArgs e)
-        {
-            MusiqueFondFinJeu.Stop();  // On arrête
-            MusiqueFondFinJeu.Close(); // On nettoie la mémoire
-        }
+
+        #endregion
     }
 }
