@@ -25,7 +25,9 @@ namespace GithubWpf
     {
         public int nbVieEnnemi { get; set; }
         // Ajout d'une propriété pour le type d'ennemi
-        public string TypeEnnemi { get; set; } // <--- AJOUT
+        public string TypeEnnemi { get; set; }
+
+        public int scoreBonus { get; set; }
 
         public Ennemi()
         {
@@ -40,14 +42,14 @@ namespace GithubWpf
     public partial class UCJeu : UserControl
     {
         //Son
-        private MediaPlayer SonTirJoueur = new MediaPlayer();
-        private MediaPlayer SonMeteorDetruit = new MediaPlayer();
-        private MediaPlayer MusiqueFondJeu = new MediaPlayer();
+        private readonly MediaPlayer SonTirJoueur = new();
+        private readonly MediaPlayer SonMeteorDetruit = new();
+        private readonly MediaPlayer MusiqueFondJeu = new();
 
         // Images et animations
-        private BitmapImage[] Helico1 = new BitmapImage[6];
-        private BitmapImage[] BarreDeVie = new BitmapImage[6];
-        private BitmapImage[] Meteor = new BitmapImage[5];
+        private readonly BitmapImage[] Helico1 = new BitmapImage[6];
+        private readonly BitmapImage[] BarreDeVie = new BitmapImage[6];
+        private readonly BitmapImage[] Meteor = new BitmapImage[5];
         private BitmapImage Avion;
 
         // Timer
@@ -72,13 +74,18 @@ namespace GithubWpf
         double scoreLimit = 31.25 ,scoreTemp;
         // Vie propre à chaque météorite / avion
         private const int VieMeteorInitiale = 2;
-        private const int VieAvionInitiale = 4;
+        private const int VieAvionInitiale = 3;
 
         // Score minimum pour apparition
         private const int scoreMinApparitionAvion = 50; // A CHANGER PLUS TARD
 
         // Booleen affiche label nouveaux ennemis
         private bool alerteAfficheLabelNouveauEnnemis = false;
+
+        // Bonus score ennemi tué
+        private const int bonusScoreMeteor = 5;
+        private const int bonusScoreAvion = 10;
+
 
         public UCJeu()
         {
@@ -281,7 +288,7 @@ namespace GithubWpf
                                     // L'ennemi est détruit
                                     magasinItemMouv.Add(balle); // Supprime la balle
                                     magasinItemMouv.Add(ennemiImage); // Supprime l'ennemi
-                                    MainWindow.Score += 3;
+                                    MainWindow.Score += ennemiImage.scoreBonus;
                                     AffichageScore();
                                     break; // la balle est détruite, sortir de la boucle ennemis
                                 }
@@ -309,8 +316,8 @@ namespace GithubWpf
             AnimationMeteor();
             imgPointVie.Source = BarreDeVie[pointVie];
             // Gestion de la vitesse des ennemis en fonction du score
-            // 5 = vitesse de base,+ (tout les packets de 200 de score rajoute +1) => modifier a droite du / pour changer 
-            int vitesseActuelle = 5 + (MainWindow.Score / 200);
+            // 4 = vitesse de base,+ (tout les packets de 300 de score rajoute +1) => modifier a droite du / pour changer 
+            int vitesseActuelle = 4 + (MainWindow.Score / 300);
             /*limit (vitesse spawn ennemi) Math.Max choisie le plus grand nombre entre x et y Math.Max(x,y)
             donc la limite est 20, tout les packet de 50 de score retire 1 a 50 de base (50 etant le nombre de tour avant spawn ennemi)
             donc changer a droite du / pour ralentir le spawn ennemi et changer le 20 pour avoir la limite de spawn*/
@@ -382,7 +389,8 @@ namespace GithubWpf
                     Width = 64,
                     Stretch = Stretch.UniformToFill,
                     nbVieEnnemi = VieMeteorInitiale,
-                    TypeEnnemi = "meteor"
+                    TypeEnnemi = "meteor",
+                    scoreBonus = bonusScoreMeteor
                 };
 
                 // On le place aléatoirement en largeur (X)
@@ -402,7 +410,8 @@ namespace GithubWpf
                     Stretch = Stretch.UniformToFill,
                     Source = Avion,
                     nbVieEnnemi = VieAvionInitiale,
-                    TypeEnnemi = "avion"
+                    TypeEnnemi = "avion",
+                    scoreBonus = bonusScoreAvion
                 };
                 // On le place aléatoirement en largeur (X)
                 Canvas.SetLeft(nouvelAvion, rand.Next(100, (int)(canvasJeu.ActualWidth - 100)));
