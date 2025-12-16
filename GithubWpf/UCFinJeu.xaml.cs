@@ -21,11 +21,14 @@ namespace GithubWpf
     /// </summary>
     public partial class UCFinJeu : UserControl
     {
+        private readonly MediaPlayer MusiqueFondFinJeu = new();
         public UCFinJeu()
         {
             InitializeComponent();
             AffichageScore();
             AffichageMeilleurScore();
+            LancerMusique();
+            this.Unloaded += UCFinJeu_Unloaded;
         }
 
         public void AffichageScore()
@@ -42,6 +45,21 @@ namespace GithubWpf
             }
             labelMeilleurScore.Content = MainWindow.MeilleurScore.ToString();
             MainWindow.Score = 0; // Réinitialiser le score pour la prochaine partie
+        }
+        private void LancerMusique()
+        {
+            MusiqueFondFinJeu.Open(new Uri("Son/SonFinJeu.wav", UriKind.Relative));
+
+            // Formule : Master * Musique
+            MusiqueFondFinJeu.Volume = MainWindow.VolumeGeneral * MainWindow.VolumeMusique;
+
+            MusiqueFondFinJeu.MediaEnded += (s, e) => { MusiqueFondFinJeu.Position = TimeSpan.Zero; MusiqueFondFinJeu.Play(); }; // Boucle
+            MusiqueFondFinJeu.Play();
+        }
+        private void UCFinJeu_Unloaded(object sender, RoutedEventArgs e)
+        {
+            MusiqueFondFinJeu.Stop();  // On arrête
+            MusiqueFondFinJeu.Close(); // On nettoie la mémoire
         }
     }
 }

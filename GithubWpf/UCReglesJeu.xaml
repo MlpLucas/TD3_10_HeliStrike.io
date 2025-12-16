@@ -8,29 +8,48 @@
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
         <Image Source="/Images/imgCadreRegles.png" Stretch="Fill" Width="500" Height="680" />
-        <Label x:Name="labelRegles" VerticalAlignment="Center" HorizontalAlignment="Center" Height="554" Width="380" FontSize="14" FontFamily="/Font/#5x7 mt pixel" Foreground="White">
-            <TextBlock>
-                <LineBreak />
-                Dans HeliStrike.io,<LineBreak />
-                le joueur contrôle un hélicoptère de gauche à<LineBreak />
-                droite.<LineBreak />
-                Le but est de faire le meilleur score<LineBreak />
-                tout en évitant ou en tirant sur les obstacles.<LineBreak />
-                En mode facile, le joueur procède trois<LineBreak />
-                points de vie,<LineBreak />
-                ainsi que la possibilité d’obtenir des bonus.<LineBreak />
-                En mode difficile, le joueur n’a qu’une vie<LineBreak />
-                et aucun bonus.
-            </TextBlock>
 
-        </Label>
+        <Image Source="/Images/LogoRegle.png" Stretch="Uniform" Height="100" 
+               VerticalAlignment="Top" HorizontalAlignment="Center" 
+               Margin="0,40,0,0"/>
+
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                   Width="351"
+                   FontSize="16" 
+                   FontFamily="/Font/#5x7 mt pixel" 
+                   Foreground="White"
+                   TextWrapping="Wrap" 
+                   TextAlignment="Center"
+                   LineHeight="24" Height="484">
+
+            BIENVENUE PILOTE !
+            <LineBreak /><LineBreak />
+            Votre mission : survivre le plus longtemps possible aux vagues ennemies.
+            <LineBreak /><LineBreak />
+
+            --- COMMANDES ---
+            <LineBreak />
+            GAUCHE / DROITE : Se déplacer
+            <LineBreak />
+            ESPACE : Tirer
+            <LineBreak /><LineBreak />
+
+            --- RÈGLES ---
+            <LineBreak />
+            Vous débutez avec 5 Vies.
+            <LineBreak />
+            Météorite = 2 Tirs | Avion = 4 Tirs
+            <LineBreak />
+            Attention : La vitesse augmente avec votre score !
+            <LineBreak /><LineBreak />
+            
+            BONNE CHANCE !
+        </TextBlock>
 
         <Button x:Name="butRetourReglesJeu" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="220" Height="80" Margin="20,0,0,20">
             <Button.Background>
                 <ImageBrush ImageSource="/Images/Bouton/imgRetour.png"/>
             </Button.Background>
         </Button>
-        <Image Margin="20,10,20,0" Source="/Images/LogoRegle.png" Stretch="Fill" Height="140" VerticalAlignment="Top"/>
-
     </Grid>
 </UserControl>

@@ -77,7 +77,7 @@ namespace GithubWpf
         private const int VieAvionInitiale = 3;
 
         // Score minimum pour apparition
-        private const int scoreMinApparitionAvion = 50; // A CHANGER PLUS TARD
+        private const int scoreMinApparitionAvion = 70; // A CHANGER PLUS TARD
 
         // Booleen affiche label nouveaux ennemis
         private bool alerteAfficheLabelNouveauEnnemis = false;
@@ -319,9 +319,9 @@ namespace GithubWpf
             // 4 = vitesse de base,+ (tout les packets de 300 de score rajoute +1) => modifier a droite du / pour changer 
             int vitesseActuelle = 4 + (MainWindow.Score / 300);
             /*limit (vitesse spawn ennemi) Math.Max choisie le plus grand nombre entre x et y Math.Max(x,y)
-            donc la limite est 20, tout les packet de 50 de score retire 1 a 50 de base (50 etant le nombre de tour avant spawn ennemi)
+            donc la limite est 20, tout les packet de 40 de score retire 1 a 40 de base (40 etant le nombre de tour avant spawn ennemi)
             donc changer a droite du / pour ralentir le spawn ennemi et changer le 20 pour avoir la limite de spawn*/
-            limit = Math.Max(20, 50 - (MainWindow.Score / 50));
+            limit = Math.Max(20, 40 - (MainWindow.Score / 50));
 
             foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
             {
@@ -441,6 +441,10 @@ namespace GithubWpf
                 Application.Current.MainWindow.KeyUp -= canvasJeu_KeyUp;
             }
             movementTimer?.Stop();
+
+            MusiqueFondJeu.Stop();  // On arrête la musique
+            MusiqueFondJeu.Close(); // On libère le fichier
+
         }
 
         private void canvasJeu_KeyDown(object sender, KeyEventArgs e)
