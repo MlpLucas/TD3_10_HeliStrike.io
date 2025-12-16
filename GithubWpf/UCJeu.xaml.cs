@@ -191,7 +191,7 @@ namespace GithubWpf
             Console.WriteLine("Position Left hélicopère :" + Canvas.GetLeft(imgHelico));
             #endif
 
-            // --- Traiter les ennemis (Enemy) ---
+            // --- Traiter les ennemis (Enemi) ---
             foreach (Ennemi ennemiImage in canvasJeu.Children.OfType<Ennemi>())
             {
                 // On le fait descendre
@@ -449,7 +449,7 @@ namespace GithubWpf
             Console.WriteLine("Fin du jeu UCJeu" + MainWindow.FinJeu);
         }
         // Gestion des sons (tir d'helico et musique de fond jeu)
-        private void InitialisationSonTirHelicoptere()
+        private void InitialisationSon()
         {
             try
             {
