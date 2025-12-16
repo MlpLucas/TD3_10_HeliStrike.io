@@ -49,10 +49,9 @@ namespace GithubWpf
             minuterie.Start();
         }
 
-        // C'est la méthode "Jeu" renommé pour plus de clarté (Tick du Timer)
         private void BouclePrincipale_Tick(object? sender, EventArgs e)
         {
-            // Animation du fond (Parallax)
+            // Animation du fond
             Deplace(imgFond1, pasFond);
             Deplace(imgFond2, pasFond);
 

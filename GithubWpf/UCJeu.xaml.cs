@@ -325,7 +325,7 @@ namespace GithubWpf
                 // Pile ou Face : 0 = Météorite, 1 = Avion
                 if (rand.Next(0, 2) == 0)
                 {
-                    // --- C'est une Météorite (Même code qu'au dessus) ---
+                    // --- C'est une Météorite ---
                     Ennemi nouveauMeteor = new Ennemi
                     {
                         Height = 128,

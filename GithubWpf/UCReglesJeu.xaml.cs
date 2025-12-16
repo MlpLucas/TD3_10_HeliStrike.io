@@ -7,13 +7,12 @@ namespace GithubWpf
     /// </summary>
     public partial class UCReglesJeu : UserControl
     {
-        #region INITIALISATION
+
 
         public UCReglesJeu()
         {
             InitializeComponent();
         }
 
-        #endregion
     }
 }
